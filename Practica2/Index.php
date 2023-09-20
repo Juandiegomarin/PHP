@@ -9,7 +9,7 @@
 
 <h1>Esta es mi super página</h1>
     
-<form action="" method="post" enctype="multipart/form-data">
+<form action="recogida.php" method="post" enctype="multipart/form-data">
 
 <label for="name">Nombre: </label>
 <input type="text" name="name" id="name">
