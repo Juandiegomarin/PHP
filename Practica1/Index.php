@@ -28,19 +28,25 @@
 
 
         <p>Sexo</p>
-        <input type="radio" name="Sexo" id="Hombre" value="Hombre">
+
+        <input type="radio" name="sexo" id="Hombre" value="Hombre">
         <label for="Hombre">Hombre</label>
-        <input type="radio" name="Sexo" id="Mujer" value="Mujer">
+        <input type="radio" name="sexo" id="Mujer" value="Mujer">
         <label for="Mujer">Mujer</label>
 
         <p>Incluir mi foto <input type="file" name="foto" accept="image/*" /></p>
 
-        <p>Nacido en: <select name="LugarNacimiento" id="lugar">
-                <option value="Malaga">Malaga</option>
-                <option value="Cadiz">Cadiz</option>
-                <option value="Sevilla">Sevilla</option>
+        <label for="nacido">Nacido en: </label>
 
-            </select></p>
+        <select name="LugarNacimiento" id="lugar">
+
+            <option value="Malaga">Malaga</option>
+
+            <option value="Cadiz">Cadiz</option>
+
+            <option value="Sevilla">Sevilla</option>
+
+        </select>
 
 
         <p>Comentarios: <textarea name="message" rows="6" cols="30">
@@ -48,10 +54,10 @@
                 </textarea></p>
 
 
-        <p><input type="checkbox" name="novedades" value="value1">Suscribete al boletin de novedades</p>
+        <p><input type="checkbox" name="novedades" checked value="value1">Suscribete al boletin de novedades</p>
 
-        <input type="button" value="Guardar Cambios">
-        <input type="button" value="Borrar datos intriducidos">
+        <button type="submit" name="botonGuardar">Guardar Cambios</button>
+        <button type="reset" name="botonBorrar">Borrar datos introducidos</button>
 
     </form>
 
