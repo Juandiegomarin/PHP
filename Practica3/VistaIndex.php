@@ -112,7 +112,7 @@
                                                                         
 
 
-          <p>Comentarios: <textarea id="message" name="message" rows="6" cols="30"><?php if (isset($_POST["message"])) { echo $_POST["message"];}?></textarea>
+          <p>Comentarios:<textarea id="message" name="message" rows="6" cols="30"><?php if (isset($_POST["message"])) { echo $_POST["message"];}?></textarea>
                 <?php
                     if (isset($_POST["botonGuardar"]) && $error_comentario) {
                     echo "<span class='error'>Campo vacio </span>";

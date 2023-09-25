@@ -19,9 +19,7 @@ if (isset($_POST["enviar"])&&!$error_form) {
 
     require( 'VistaRespuesta.php');
 } else {
-?>
 
-<?php
         require('VistaIndex.php');
 }
 ?>
