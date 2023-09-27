@@ -3,26 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Ejercicio 9</title>
+    <style>
+        table,tr,td,th  {border:1px solid black}
+    </style>
 </head>
 <body>
 
 <?php
 
-$lenguajes_cliente[0]="JavaScript";
-$lenguajes_cliente[1]="Html";
-$lenguajes_cliente[2]="Css";
+$lenguajes_cliente["LC1"]="JavaScript";
+$lenguajes_cliente["LC2"]="Html";
+$lenguajes_cliente["LC3"]="Css";
 
-$lenguajes_servidor[0]="Php";
-$lenguajes_servidor[1]="Java";
-$lenguajes_servidor[2]="MySql";
+$lenguajes_servidor["LS1"]="Php";
+$lenguajes_servidor["LS2"]="Java";
+$lenguajes_servidor["LS3"]="MySql";
 
 
-$lenguajes;
+$lenguajes=$lenguajes_cliente;
 
-for ($i=0; $i < ; $i++) { 
-    
+foreach ($lenguajes_servidor as $leng => $de) {
+    $lenguajes[$leng]=$de;
 }
+
+echo"<table>";
+echo"<tr><th>Lenguajes</th></tr>";
+foreach ($lenguajes as $leng => $de) {
+    echo"<tr><td>".$de."</td></tr>";
+}
+
+
+echo"</table>";
 
 
 ?>
