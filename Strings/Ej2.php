@@ -41,7 +41,7 @@ if (isset($_POST["btnComprobar"])) {
         <form action="Ej2.php" method="post" enctype="multipart/form-data">
 
             <p>Dime una palabra o un número y te dire si es palindromo o capicua</p>
-            <p><label for="texto1">Primera palabra: </label>
+            <p><label for="texto1">Palabra: </label>
                 <input type="text" name="texto1" id="texto1" value="<?php if (isset($_POST["btnComprobar"])) echo $_POST["texto1"]; ?>" />
                 <?php
                 if (isset($_POST["btnComprobar"]) && $errores) {
