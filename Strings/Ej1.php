@@ -1,8 +1,13 @@
 <?php
 if (isset($_POST["btnComparar"])) {
 
-    $error_texto1 = $_POST["texto1"] == "" || strlen($_POST["texto1"]) < 3;
-    $error_texto2 = $_POST["texto2"] == "" || strlen($_POST["texto2"]) < 3;
+    $text1=$_POST["texto1"];
+    $text1=trim($text1);
+    $error_texto1 = $text1 == "" || strlen($text1) < 3;
+
+    $text2=$_POST["texto2"];
+    $text2=trim($text2);
+    $error_texto2 = $text2 == "" || strlen($text2) < 3;
 
     $errores = $error_texto1 || $error_texto2;
 }
@@ -43,7 +48,7 @@ if (isset($_POST["btnComparar"])) {
 
             <p>Dime dos palabras y te diré si riman o no</p>
             <p><label for="texto1">Primera palabra: </label>
-                <input type="text" name="texto1" id="texto1" value="<?php if (isset($_POST["btnComparar"])) echo $_POST["texto1"]; ?>" />
+                <input type="text" name="texto1" id="texto1" value="<?php if (isset($_POST["btnComparar"])) echo $text1; ?>" />
                 <?php
                 if (isset($_POST["btnComparar"]) && $error_texto1) {
 
@@ -59,7 +64,7 @@ if (isset($_POST["btnComparar"])) {
 
 </p>
             <p><label for="texto2">Segunda palabras: </label>
-                <input type="text" name="texto2" id="texto2" value="<?php if (isset($_POST["btnComparar"])) echo $_POST["texto2"]; ?>" />
+                <input type="text" name="texto2" id="texto2" value="<?php if (isset($_POST["btnComparar"])) echo $text2; ?>" />
                 <?php
                 if (isset($_POST["btnComparar"]) && $error_texto2) {
 
@@ -80,22 +85,22 @@ if (isset($_POST["btnComparar"])) {
     <?php
     if (isset($_POST["btnComparar"]) && !$errores) {
 
-        $long1 = strlen($_POST["texto1"]);
-        $long2 = strlen($_POST["texto2"]);
+        $long1 = strlen($text1);
+        $long2 = strlen($text2);
 
-        $texto1 = strtolower($_POST["texto1"]);
-        trim($texto1);
+        $texto1 = strtolower($text1);
+        
 
-        $texto2 = strtolower($_POST["texto2"]);
-        trim($texto2);
+        $texto2 = strtolower($text2);
+        
 
         $riman = "no riman";
 
-        if ($texto1[$long1 - 1] == $texto2[$long2 - 1]) {
+        if ($text1[$long1 - 1] == $text2[$long2 - 1]) {
 
-            if ($texto1[$long1 - 2] == $texto2[$long2 - 2]) {
+            if ($text1[$long1 - 2] == $text2[$long2 - 2]) {
 
-                if ($texto1[$long1 - 3] == $texto2[$long2 - 3]) {
+                if ($text1[$long1 - 3] == $text2[$long2 - 3]) {
 
                     $riman = "riman";
                 } else {
@@ -107,7 +112,7 @@ if (isset($_POST["btnComparar"])) {
     ?>
         <div class="respuesta">
             <h2>Ripios-Respuesta</h2>
-            <p>Las palabras <strong><?php echo $_POST["texto1"]; ?></strong> y <strong><?php echo $_POST["texto2"]; ?></strong> <?php echo $riman; ?> </p>
+            <p>Las palabras <strong><?php echo $text1; ?></strong> y <strong><?php echo $text2; ?></strong> <?php echo $riman; ?> </p>
         </div>
 
     <?php
