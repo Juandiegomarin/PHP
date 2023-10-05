@@ -70,7 +70,19 @@
                 <?php
                 if (isset($_POST["botonGuardar"])&&$error_nif) {
 
-                    echo "<span class='error'>Campo vacio </span>";
+                    if ($_POST["nif"]=="") {
+
+                        echo "<span class='error'>Campo vacio </span>";
+                        
+                    }elseif(!dni_bien_escrito(strtoupper($_POST["nif"]))){
+
+                        echo "<span class='error'>DNI no esta bien escrito </span>";
+                    }else{
+                        echo "<span class='error'>DNI no valido</span>";
+
+                    }
+
+                    
                 }
 
                 ?>
@@ -95,7 +107,27 @@
                                                                         }   ?>>
             <label for="Mujer">Mujer</label>
 
-            <p>Incluir mi foto <input type="file" name="foto" accept="image/*" /></p>
+            <p>Incluir mi foto <input type="file" name="foto" accept="image/*" />
+            <?php
+                if (isset($_POST["botonEnviar"]) && $error_achivo) {
+
+                    if ($_FILES["foto"]["name"]!="") {
+                        
+
+                    if ($_FILES["foto"]["error"]) {
+                        echo "<span class='error'>No se ha podido subir el archivo al servidor</span>";
+                    } elseif (!getimagesize($_FILES["foto"]["tmp_name"])) {
+
+                        echo "<span class='error'>No has seleccionado un archivo de imagen</span>";
+                    } else {
+                        echo "<span class='error'>La imagen supera los 500KB</span>";
+                    }
+                }
+                }
+                ?>                                                 
+        
+        
+            </p>
 
             <label for="nacido">Nacido en: </label>
 
