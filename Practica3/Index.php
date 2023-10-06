@@ -27,7 +27,7 @@ if (isset($_POST["botonGuardar"])) { //Compruebo errores
     $error_comentario = $_POST["message"] == "";
     $error_achivo = $_FILES["foto"]["name"] == "" || $_FILES["foto"]["error"] || !getimagesize($_FILES["foto"]["tmp_name"]) || $_FILES["foto"]["size"] > 500 * 1024;
     if ($error_achivo) {
-        $error_form = $error_nombre || $error_ape || $error_pass || $error_sex || $error_nif || $error_comentario ;
+        $error_form = $error_nombre || $error_ape || $error_pass || $error_sex || $error_nif || $error_comentario;
     } else {
 
         $error_form = $error_nombre || $error_ape || $error_pass || $error_sex || $error_nif || $error_comentario|| $error_achivo;
