@@ -1,73 +1,78 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-        <style>
-            .error {
-                color: red;
-            }
-        </style>
-    </head>
+    <style>
+    .error {
+        color: red;
+    }
 
-    <body>
-        <h1>
-            Rellena tu CV
-        </h1>
 
-        <form action="Index.php" method="post" enctype="multipart/form-data">
+    .tanImagen {
+        width: 50%;
+    }
+    </style>
+</head>
 
-            <p><label for="name">Nombre</label></p>
-            <p><input type="text" name="name" id="name" value="<?php if (isset($_POST["name"])) {
+<body>
+    <h1>
+        Rellena tu CV
+    </h1>
+
+    <form action="Index.php" method="post" enctype="multipart/form-data">
+
+        <p><label for="name">Nombre</label></p>
+        <p><input type="text" name="name" id="name" value="<?php if (isset($_POST["name"])) {
                                                                     echo $_POST["name"];
                                                                 }   ?>">
 
-                <?php
+            <?php
                 if (isset($_POST["botonGuardar"])&&$error_nombre) {
 
                     echo "<span class='error'>Campo vacio </span>";
                 }
 
                 ?>
-            </p>
+        </p>
 
 
-            <p><label for="ape">Apellido</label></p>
-            <p><input type="text" name="ape" id="ape" value="<?php if (isset($_POST["ape"])) {
+        <p><label for="ape">Apellido</label></p>
+        <p><input type="text" name="ape" id="ape" value="<?php if (isset($_POST["ape"])) {
                                                                     echo $_POST["ape"];
                                                                 }   ?>">
 
-                <?php
+            <?php
                 if (isset($_POST["botonGuardar"])&&$error_ape) {
 
                     echo "<span class='error'>Campo vacio </span>";
                 }
 
                 ?>
-            </p>
+        </p>
 
-            <p><label for="pass">Contraseña</label></p>
-            <p><input type="password" name="pass" id="pass" value="<?php if (isset($_POST["pass"])) {
+        <p><label for="pass">Contraseña</label></p>
+        <p><input type="password" name="pass" id="pass" value="<?php if (isset($_POST["pass"])) {
                                                                         echo $_POST["pass"];
                                                                     }   ?>">
 
-                <?php
+            <?php
                 if (isset($_POST["botonGuardar"])&&$error_pass) {
 
                     echo "<span class='error'>Campo vacio </span>";
                 }
 
                 ?>
-            </p>
+        </p>
 
-            <p><label for="nif">DNI</label></p>
-            <p><input type="text" name="nif" id="nif" value="<?php if (isset($_POST["nif"])) {
+        <p><label for="nif">DNI</label></p>
+        <p><input type="text" name="nif" id="nif" value="<?php if (isset($_POST["nif"])) {
                                                                     echo $_POST["nif"];
                                                                 }   ?>">
-                <?php
+            <?php
                 if (isset($_POST["botonGuardar"])&&$error_nif) {
 
                     if ($_POST["nif"]=="") {
@@ -86,11 +91,11 @@
                 }
 
                 ?>
-            </p>
+        </p>
 
-            <p>Sexo</p>
+        <p>Sexo</p>
 
-            <?php
+        <?php
             if (isset($_POST["botonGuardar"])&&$error_sex) {
 
                 echo "<span class='error'>Eliga un sexo </span>";
@@ -98,22 +103,21 @@
 
             ?>
 
-            <input type="radio" name="sexo" id="Hombre" value="Hombre" <?php if (isset($_POST["sexo"]) && $_POST["sexo"] == "Hombre") {
+        <input type="radio" name="sexo" id="Hombre" value="Hombre" <?php if (isset($_POST["sexo"]) && $_POST["sexo"] == "Hombre") {
                                                                             echo "checked";
                                                                         }   ?>>
-            <label for="Hombre">Hombre</label>
-            <input type="radio" name="sexo" id="Mujer" value="Mujer" <?php if (isset($_POST["sexo"]) && $_POST["sexo"] == "Mujer  ") {
+        <label for="Hombre">Hombre</label>
+        <input type="radio" name="sexo" id="Mujer" value="Mujer" <?php if (isset($_POST["sexo"]) && $_POST["sexo"] == "Mujer  ") {
                                                                             echo "checked";
                                                                         }   ?>>
-            <label for="Mujer">Mujer</label>
+        <label for="Mujer">Mujer</label>
 
-            <p>Incluir mi foto <input type="file" name="foto" accept="image/*" />
+        <p>Incluir mi foto <input type="file" name="foto" accept="image/*" />
             <?php
                 if (isset($_POST["botonEnviar"]) && $error_achivo) {
 
-                    if ($_FILES["foto"]["name"]!="") {
-                        
-
+                    
+                   
                     if ($_FILES["foto"]["error"]) {
                         echo "<span class='error'>No se ha podido subir el archivo al servidor</span>";
                     } elseif (!getimagesize($_FILES["foto"]["tmp_name"])) {
@@ -122,48 +126,49 @@
                     } else {
                         echo "<span class='error'>La imagen supera los 500KB</span>";
                     }
+                    
                 }
-                }
-                ?>                                                 
-        
-        
-            </p>
-
-            <label for="nacido">Nacido en: </label>
-
-            <select name="nacido" id="nacidor">
-
-                <option value="Malaga">Malaga</option>
-
-                <option value="Cadiz">Cadiz</option>
-
-                <option value="Sevilla">Sevilla</option>
-
-            </select>
-
-                                                                        
+                ?>
 
 
-          <p>Comentarios:<textarea id="message" name="message" rows="6" cols="30"><?php if (isset($_POST["message"])) { echo $_POST["message"];}?></textarea>
-                <?php
+        </p>
+
+        <label for="nacido">Nacido en: </label>
+
+        <select name="nacido" id="nacidor">
+
+            <option value="Malaga">Malaga</option>
+
+            <option value="Cadiz">Cadiz</option>
+
+            <option value="Sevilla">Sevilla</option>
+
+        </select>
+
+
+
+
+        <p>Comentarios:<textarea id="message" name="message" rows="6"
+                cols="30"><?php if (isset($_POST["message"])) { echo $_POST["message"];}?></textarea>
+            <?php
                     if (isset($_POST["botonGuardar"]) && $error_comentario) {
                     echo "<span class='error'>Campo vacio </span>";
                 }?>
 
 
-            </p>
-
-            
+        </p>
 
 
 
-            <p><input type="checkbox" name="sub" checked>Suscribete al boletin de novedades</p>
 
-            <button type="submit" name="botonGuardar">Guardar Cambios</button>
-            <button type="reset" name="botonBorrar">Borrar datos introducidos</button>
 
-        </form>
+        <p><input type="checkbox" name="sub" checked>Suscribete al boletin de novedades</p>
 
-    </body>
+        <button type="submit" name="botonGuardar">Guardar Cambios</button>
+        <button type="reset" name="botonBorrar">Borrar datos introducidos</button>
 
-    </html>
+    </form>
+
+</body>
+
+</html>
