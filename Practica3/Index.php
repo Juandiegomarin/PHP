@@ -1,5 +1,5 @@
 <?php
-$error_form = false;
+
 
 function letraNIF($dni)
 {
@@ -25,16 +25,13 @@ if (isset($_POST["botonGuardar"])) { //Compruebo errores
     $error_nif = $_POST["nif"] == "" || !dni_bien_escrito(strtoupper($_POST["nif"])) || !dni_valido($_POST["nif"]);
     $error_sex = !isset($_POST["sexo"]);
     $error_comentario = $_POST["message"] == "";
-    $error_achivo = $_FILES["foto"]["error"] || !getimagesize($_FILES["foto"]["tmp_name"]) || $_FILES["foto"]["size"] > 500 * 1024;
-    if ($_FILES["foto"]["name"] == "") {
-        $error_form = $error_nombre || $error_ape || $error_pass || $error_sex || $error_nif || $error_comentario;
-    } else {
-
-        $error_form = $error_nombre || $error_ape || $error_pass || $error_sex || $error_nif || $error_comentario|| $error_achivo;
-    }
+    $error_archivo =$_FILES["foto"]["name"] != "" && ($_FILES["foto"]["error"] || !getimagesize($_FILES["foto"]["tmp_name"]) || $_FILES["foto"]["size"] > 500 * 1024);
+    
+    $error_form = $error_nombre || $error_ape || $error_pass || $error_sex || $error_nif || $error_comentario|| $error_archivo;
+    
 }
 
-if (!$error_form && isset($_POST["botonGuardar"])) {
+if ( isset($_POST["botonGuardar"])&&!$error_form) {
 
     require('VistaRespuesta.php');
 } else {

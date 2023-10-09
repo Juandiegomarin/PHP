@@ -7,14 +7,14 @@
     <title>Document</title>
 
     <style>
-    .error {
-        color: red;
-    }
+        .error {
+            color: red;
+        }
 
 
-    .tanImagen {
-        width: 50%;
-    }
+        .tanImagen {
+            width: 10%;
+        }
     </style>
 </head>
 
@@ -27,97 +27,93 @@
 
         <p><label for="name">Nombre</label></p>
         <p><input type="text" name="name" id="name" value="<?php if (isset($_POST["name"])) {
-                                                                    echo $_POST["name"];
-                                                                }   ?>">
+                                                                echo $_POST["name"];
+                                                            }   ?>">
 
             <?php
-                if (isset($_POST["botonGuardar"])&&$error_nombre) {
+            if (isset($_POST["botonGuardar"]) && $error_nombre) {
 
-                    echo "<span class='error'>Campo vacio </span>";
-                }
+                echo "<span class='error'>Campo vacio </span>";
+            }
 
-                ?>
+            ?>
         </p>
 
 
         <p><label for="ape">Apellido</label></p>
         <p><input type="text" name="ape" id="ape" value="<?php if (isset($_POST["ape"])) {
-                                                                    echo $_POST["ape"];
-                                                                }   ?>">
+                                                                echo $_POST["ape"];
+                                                            }   ?>">
 
             <?php
-                if (isset($_POST["botonGuardar"])&&$error_ape) {
+            if (isset($_POST["botonGuardar"]) && $error_ape) {
 
-                    echo "<span class='error'>Campo vacio </span>";
-                }
+                echo "<span class='error'>Campo vacio </span>";
+            }
 
-                ?>
+            ?>
         </p>
 
         <p><label for="pass">Contraseña</label></p>
         <p><input type="password" name="pass" id="pass" value="<?php if (isset($_POST["pass"])) {
-                                                                        echo $_POST["pass"];
-                                                                    }   ?>">
+                                                                    echo $_POST["pass"];
+                                                                }   ?>">
 
             <?php
-                if (isset($_POST["botonGuardar"])&&$error_pass) {
+            if (isset($_POST["botonGuardar"]) && $error_pass) {
 
-                    echo "<span class='error'>Campo vacio </span>";
-                }
+                echo "<span class='error'>Campo vacio </span>";
+            }
 
-                ?>
+            ?>
         </p>
 
         <p><label for="nif">DNI</label></p>
         <p><input type="text" name="nif" id="nif" value="<?php if (isset($_POST["nif"])) {
-                                                                    echo $_POST["nif"];
-                                                                }   ?>">
+                                                                echo $_POST["nif"];
+                                                            }   ?>">
             <?php
-                if (isset($_POST["botonGuardar"])&&$error_nif) {
+            if (isset($_POST["botonGuardar"]) && $error_nif) {
 
-                    if ($_POST["nif"]=="") {
+                if ($_POST["nif"] == "") {
 
-                        echo "<span class='error'>Campo vacio </span>";
-                        
-                    }elseif(!dni_bien_escrito(strtoupper($_POST["nif"]))){
+                    echo "<span class='error'>Campo vacio </span>";
+                } elseif (!dni_bien_escrito(strtoupper($_POST["nif"]))) {
 
-                        echo "<span class='error'>DNI no esta bien escrito </span>";
-                    }else{
-                        echo "<span class='error'>DNI no valido</span>";
-
-                    }
-
-                    
+                    echo "<span class='error'>DNI no esta bien escrito </span>";
+                } else {
+                    echo "<span class='error'>DNI no valido</span>";
                 }
+            }
 
-                ?>
+            ?>
         </p>
 
         <p>Sexo</p>
 
         <?php
-            if (isset($_POST["botonGuardar"])&&$error_sex) {
+        if (isset($_POST["botonGuardar"]) && $error_sex) {
 
-                echo "<span class='error'>Eliga un sexo </span>";
-            }
+            echo "<span class='error'>Eliga un sexo </span>";
+        }
 
-            ?>
+        ?>
 
         <input type="radio" name="sexo" id="Hombre" value="Hombre" <?php if (isset($_POST["sexo"]) && $_POST["sexo"] == "Hombre") {
-                                                                            echo "checked";
-                                                                        }   ?>>
+                                                                        echo "checked";
+                                                                    }   ?>>
         <label for="Hombre">Hombre</label>
         <input type="radio" name="sexo" id="Mujer" value="Mujer" <?php if (isset($_POST["sexo"]) && $_POST["sexo"] == "Mujer  ") {
-                                                                            echo "checked";
-                                                                        }   ?>>
+                                                                        echo "checked";
+                                                                    }   ?>>
         <label for="Mujer">Mujer</label>
 
         <p>Incluir mi foto <input type="file" name="foto" accept="image/*" />
             <?php
-                if (isset($_POST["botonEnviar"]) && $error_achivo) {
+            if (isset($_POST["botonGuardar"]) && $error_archivo) {
 
-                    
-                   
+                
+
                     if ($_FILES["foto"]["error"]) {
                         echo "<span class='error'>No se ha podido subir el archivo al servidor</span>";
                     } elseif (!getimagesize($_FILES["foto"]["tmp_name"])) {
@@ -126,9 +122,9 @@
                     } else {
                         echo "<span class='error'>La imagen supera los 500KB</span>";
                     }
-                    
-                }
-                ?>
+                
+            }
+            ?>
 
 
         </p>
@@ -148,12 +144,13 @@
 
 
 
-        <p>Comentarios:<textarea id="message" name="message" rows="6"
-                cols="30"><?php if (isset($_POST["message"])) { echo $_POST["message"];}?></textarea>
+        <p>Comentarios:<textarea id="message" name="message" rows="6" cols="30"><?php if (isset($_POST["message"])) {
+                                                                                    echo $_POST["message"];
+                                                                                } ?></textarea>
             <?php
-                    if (isset($_POST["botonGuardar"]) && $error_comentario) {
-                    echo "<span class='error'>Campo vacio </span>";
-                }?>
+            if (isset($_POST["botonGuardar"]) && $error_comentario) {
+                echo "<span class='error'>Campo vacio </span>";
+            } ?>
 
 
         </p>
