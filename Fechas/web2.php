@@ -35,7 +35,7 @@
         </select>
         <select name="año1" id="año1">
             <?php
-            for ($i = 2020; $i >= 1900; $i--) {
+            for ($i = 2023; $i >= 1900; $i--) {
                 if ($_POST['año1'] == $i) {
                     echo "<option value='$i' selected>$i</option>";
                 } else {
@@ -69,7 +69,7 @@
         </select>
         <select name="año2" id="año2">
             <?php
-            for ($i = 2020; $i >= 1900; $i--) {
+            for ($i = 2023; $i >= 1900; $i--) {
                 if ($_POST['año2'] == $i) {
                     echo "<option value='$i' selected>$i</option>";
                 } else {

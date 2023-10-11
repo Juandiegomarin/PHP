@@ -36,13 +36,11 @@
             $fecha1 = explode("/", $fecha1);
             $fecha2 = explode("/", $fecha2);
             if (checkdate($fecha1[1], $fecha1[0], $fecha1[2]) && checkdate($fecha2[1], $fecha2[0], $fecha2[2])) {
-                $fecha1 = strtotime($fecha1[2] . "-" . $fecha1[1] . "-" . $fecha1[0]);
-                $fecha2 = strtotime($fecha2[2] . "-" . $fecha2[1] . "-" . $fecha2[0]);
-                $diferencia = $fecha2 - $fecha1;
-                if ($diferencia < 0) {
-                    $diferencia = $diferencia * -1;
-                }
-                $diferencia = $diferencia / 86400;
+                $fecha1 = strtotime($fecha1[2] . "/" . $fecha1[1] . "/" . $fecha1[0]);
+                $fecha2 = strtotime($fecha2[2] . "/" . $fecha2[1] . "/" . $fecha2[0]);
+                $diferencia = abs($fecha2 - $fecha1);
+                
+                $diferencia = round($diferencia / 86400,0);
                 echo "<div class='resultado'><h1>Fechas - Resultado</h1><p>La diferencia entre las dos fechas es de $diferencia dias</p></div>";
             } else {
                 echo "<div class='resultado'><h1>Fechas - Resultado</h1><p>Alguna de las fechas introducidas no es correcta</p></div>";
