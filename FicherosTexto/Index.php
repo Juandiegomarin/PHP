@@ -25,6 +25,9 @@
         //Constante PHP_EOL.
         
         fclose($fd1);
+
+        //Leer todo
+        $todo_contenido=file_get_contents("prueba.txt");
         ?>
 </body>
 </html>
