@@ -2,7 +2,7 @@
 if(isset($_POST["btnContar"]))
 {
     //echo $_FILES["fichero"]["type"] para saber extension del archivo
-    $error_form=$_FILES["fichero"]["name"]==""||$_FILES["fichero"]["error"]||$_FILES["fichero"]["type"]!="text/plain"|| $_FILES["fichero"]["size"]>2500*1024;
+    $error_form=$_FILES["fichero"]["name"]==""||$_FILES["fichero"]["error"]||$_FILES["fichero"]["type"]!="text/plain"|| $_FILES["fichero"]["size"]>1000*1024;
 }
 ?>
 
