@@ -56,7 +56,7 @@
     }
     if (isset($_POST["calcular"])) {
 
-        echo "El numero de palabras que hay es: " . dividir($_POST["texto"],$separador);
+        echo "El numero de palabras que hay es: " . dividir($_POST["texto"],$separador  );
     }
 
 
