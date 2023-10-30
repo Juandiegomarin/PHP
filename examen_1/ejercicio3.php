@@ -10,7 +10,7 @@ if (isset($_POST["codificar"])) {
 
     $error_form = $error_texto || $error_des || $error_file;
 }
-
+ 
 
 ?>
 
