@@ -1,4 +1,9 @@
 <?php
+
+define("SERVIDOR_BD","localhost");
+define("USUARIO_BD","jose");
+define("CLAVE_BD","josefa");
+define("NOMBRE_BD","bd_foro");
 function error_page($title, $body)
 {
     $page = '<!DOCTYPE html>
@@ -24,6 +29,22 @@ function repetido($conexion,$tabla,$columna,$valor){
     } catch (Exception $e) {
         mysqli_close($conexion);
         $respuesta = (error_page("<h1>Primer CRUD</h1>", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
+    }
+
+    return $respuesta;
+
+}
+function repetido_editando($conexion,$tabla,$columna,$valor,$columna_clave,$valor_clave){
+
+    try {
+        $consulta = "select * from ".$tabla." where ".$columna."='" . $valor . "' AND ".$columna_clave." <> ".$valor_clave;
+        $resultado = mysqli_query($conexion, $consulta);
+        $respuesta=mysqli_num_rows($resultado)>0;
+        mysqli_free_result($resultado);
+    } catch (Exception $e) {
+        mysqli_close($conexion);
+        $respuesta = (error_page("<h1>Primer CRUD</h1>", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
+        
     }
 
     return $respuesta;
