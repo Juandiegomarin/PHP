@@ -28,6 +28,38 @@ try {
     echo "<p><span class='negrita'>Dni: </span>".$detalle_usuario["dni"]."</p>";
     echo "<p><span class='negrita'>Sexo: </span>".$detalle_usuario["sexo"]."</p>";
     echo "<p><span class='negrita'>Foto: </span><br><img src=img/".$detalle_usuario["foto"]." width='100px'>'</p>";
+
+    echo "<form><button type='submit'>Volver</button></form>";
+}
+if(isset($_POST["botonInsertar"])){
+?>
+<h2>Agregar nuevo usuario</h2>
+<form action="index.php" method='post' enctype="multipart/form-data">
+
+    <label for="nombre">Nombre:</label><br>
+    <input type="text" name="nombre" id="nombre" placeholder="Nombre..." maxlength="50"><br>
+    <label for="usuario">Usuario:</label><br>
+    <input type="text" name="usuario" id="usuario" placeholder="Usuario..." maxlength="50"><br>
+    <label for="pass">Contraseña:</label><br>
+    <input type="password" name="pass" id="pass" placeholder="Contraseña..." maxlength="15"><br>
+    <label for="dni">DNI:</label><br>
+    <input type="text" name="dni" id="dni" placeholder="DNI..."maxlength="9"><br>
+    <label for="sexo">Sexo</label><br>
+    <input type="radio" name="sexo" id="hombre" value="hombre">
+    <label for="hombre">Hombre</label><br>
+    <input type="radio" name="sexo" id="mujer" value="mujer">
+    <label for="mujer">Mujer</label>
+    <p><label for="foto">Incluir mi foto Max(500KB)</label><input type="file" name="foto" id="foto"></p>
+    
+
+
+
+
+</form>
+
+    
+<?php
+
 }
 
 ?>
@@ -65,6 +97,9 @@ try {
         .azul{
             color: blue;
         }
+        #medio{
+            margin-top:20px
+        }
     </style>
 </head>
 
@@ -99,7 +134,7 @@ try {
     echo "<td>#</td>";
     echo "<th>Foto</th>";
     echo "<th>Nombre</th>";
-    echo "<td><button class='enlace' type='submit' name='botonInsertar'>Usuario +</button></td>";
+    echo "<td><form action='index.php' method='post'><button class='enlace' type='submit' name='botonInsertar' id='medio'>Usuario +</button></form></td>";
     echo "<tr>";
     while($arr = mysqli_fetch_assoc($resultado)) { 
         echo "<tr>";
