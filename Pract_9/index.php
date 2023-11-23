@@ -1,5 +1,19 @@
 <?php
 require "src/constantes_funciones.php";
+
+if(isset($_POST["btnDetalle"])){
+
+    echo $_POST["btnDetalle"];
+
+    try {
+        $conexion=mysqli_connect("localhost","jose","josefa","bd_videoclub");
+        mysqli_set_charset($conexion, "utf8");
+    } catch (Exception $e) {
+        die("<p>No se ha podido acceder a la : ".$e->getMessage()."</p>");
+    }
+
+    echo"<form><button action='index.php'>Volver</button></form>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +47,9 @@ require "src/constantes_funciones.php";
             border: none;
             cursor: pointer;
         }
+        img{
+            height: 50px;
+        }
     </style>
 </head>
 
@@ -63,11 +80,18 @@ require "src/constantes_funciones.php";
             <th class='gris'>id</th>
             <th class='gris'>Título</th>
             <th class='gris'>Carátula</th>
-            <th class='gris'><button class='enlace'>Películas+</button></th>
+            <th class='gris'><form action='index.php' method='post'><button class='enlace' name='btnInsertar'>Películas+</button></form></th>
     </tr>
     ";
        while($tupla=mysqli_fetch_assoc($resultado)){
 
+        echo "<tr>
+                <td>".$tupla["idPelicula"]."</td>
+                <td><form action='index.php' method='post'><button class='enlace' name='btnDetalle' value='".$tupla["idPelicula"]."'>".$tupla["titulo"]."</button></form></td>
+                <td><img src='Img/".$tupla["caratula"]."'/></td>
+                <td><form action='index.php' method='post'><button class='enlace' name='btnBorrar' value='".$tupla["idPelicula"]."'>Borrar</button>-<button class='enlace' name='btnEditar' value='".$tupla["idPelicula"]."'>Editar</button></form></td>
+        
+        </tr>";
         
        } 
 
