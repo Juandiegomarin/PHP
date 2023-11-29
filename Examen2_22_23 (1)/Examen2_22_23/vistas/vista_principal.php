@@ -108,3 +108,4 @@
                 echo "<p>A ".$nombre_alumno." no le quedan asignaturas por calificar.</p>";
         }
         ?>
+        
