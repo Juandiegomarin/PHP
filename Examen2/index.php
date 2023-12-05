@@ -51,6 +51,7 @@ function error_page($title, $body)
     <h2>Horario de los Profesores</h2>
 
     <?php
+
     try {
         $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_horarios_exam");
         mysqli_set_charset($conexion, "utf8");
@@ -75,7 +76,7 @@ function error_page($title, $body)
 
     while ($fila = mysqli_fetch_assoc($resultado)) {
 
-        if ((isset($_POST["verNotas"]) && ($_POST["profe"] == $fila["id_usuario"])) || (isset($_POST["btnEditar"]) && $_POST["btnEditar"]==$fila["id_usuario"])) {
+        if ((isset($_POST["verNotas"]) && ($_POST["profe"] == $fila["id_usuario"])) || (isset($_POST["btnEditar"]) && $_POST["btnEditar"] == $fila["id_usuario"])) {
             echo "<option value='" . $fila["id_usuario"] . "' selected>" . $fila["nombre"] . "</option>";
             $nombre_profe = $fila["nombre"];
         } else {
@@ -91,7 +92,7 @@ function error_page($title, $body)
 
     if (isset($_POST["verNotas"]) || isset($_POST["btnEditar"])) {
 
-        if(isset($_POST["btnEditar"])){
+        if (isset($_POST["btnEditar"])) {
 
             try {
                 $consulta = "select nombre from usuarios where id_usuario=" . $_POST["btnEditar"] . "";
@@ -100,13 +101,12 @@ function error_page($title, $body)
                 mysqli_close($conexion);
                 die("<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p></body></html>");
             }
-         $datos=mysqli_fetch_assoc($resultado);
-         $nombre_profe=$datos["nombre"];
-         $id_profe=$_POST["btnEditar"];   
-
+            $datos = mysqli_fetch_assoc($resultado);
+            $nombre_profe = $datos["nombre"];
+            $id_profe = $_POST["btnEditar"];
         }
-        if(isset($_POST["verNotas"])){
-            $id_profe=$_POST["profe"];
+        if (isset($_POST["verNotas"])) {
+            $id_profe = $_POST["profe"];
         }
         echo "<h3>Horario del profesor:" . $nombre_profe . "</h3>";
 
@@ -141,11 +141,11 @@ function error_page($title, $body)
 
                 $nombre = mysqli_fetch_assoc($resultado);
 
-                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='1'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $i . "' name='btnEditar''>Editar</button></form></td>";;
+                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='1'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe  . "' name='btnEditar''>Editar</button></form></td>";;
             } else {
 
 
-                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='1'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
+                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='1'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
             }
         }
         echo "</tr>";
@@ -175,11 +175,11 @@ function error_page($title, $body)
                 }
 
                 $nombre = mysqli_fetch_assoc($resultado);
-                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='2'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $i . "' name='btnEditar''>Editar</button></form></td>";;
+                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='2'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe  . "' name='btnEditar''>Editar</button></form></td>";;
             } else {
 
 
-                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='2'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
+                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='2'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
             }
         }
         echo "</tr>";
@@ -210,11 +210,11 @@ function error_page($title, $body)
 
                 $nombre = mysqli_fetch_assoc($resultado);
 
-                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='3'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $i . "' name='btnEditar''>Editar</button></form></td>";;
+                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='3'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe  . "' name='btnEditar''>Editar</button></form></td>";;
             } else {
 
 
-                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='3'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
+                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='3'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
             }
         }
         echo "</tr>";
@@ -246,11 +246,11 @@ function error_page($title, $body)
 
                 $nombre = mysqli_fetch_assoc($resultado);
 
-                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='4'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $i . "' name='btnEditar''>Editar</button></form></td>";;
+                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='4'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe  . "' name='btnEditar''>Editar</button></form></td>";;
             } else {
 
 
-                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='4'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
+                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='4'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
             }
         }
         echo " </tr>";
@@ -281,11 +281,11 @@ function error_page($title, $body)
 
                 $nombre = mysqli_fetch_assoc($resultado);
 
-                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='5'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $i . "' name='btnEditar''>Editar</button></form></td>";;
+                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='5'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe  . "' name='btnEditar''>Editar</button></form></td>";;
             } else {
 
 
-                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='5'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
+                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='5'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
             }
         }
         echo "</tr>";
@@ -316,11 +316,11 @@ function error_page($title, $body)
 
                 $nombre = mysqli_fetch_assoc($resultado);
 
-                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='6'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $i . "' name='btnEditar''>Editar</button></form></td>";;
+                echo "<td><p>" . $nombre["nombre"] . "</p><form method='post' action='index.php'><input type='hidden' name='hora' value='6'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe  . "' name='btnEditar''>Editar</button></form></td>";;
             } else {
 
 
-                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='6'/><input type='hidden' name='dia' value='".$i."'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
+                echo "<td><form method='post' action='index.php'><input type='hidden' name='hora' value='6'/><input type='hidden' name='dia' value='" . $i . "'/><button class='enlace' type='submit' value='" . $id_profe . "' name='btnEditar''>Editar</button></form></td>";
             }
         }
         echo " </tr>";
@@ -328,38 +328,53 @@ function error_page($title, $body)
 
         echo "</table>";
 
-        if(isset($_POST["btnEditar"])){
+        if (isset($_POST["btnEditar"])) {
 
-            $horas[1]="8:15-9:15";
-            $horas[2]="9:15-10:15";
-            $horas[3]="10:15-11:15";
-            $horas[4]="11:15-12:45";
-            $horas[5]="12:15-13:45";
-            $horas[6]="13:15-14:45";
+            $horas[1] = "8:15-9:15";
+            $horas[2] = "9:15-10:15";
+            $horas[3] = "10:15-11:15";
+            $horas[4] = "11:15-12:45";
+            $horas[5] = "12:15-13:45";
+            $horas[6] = "13:15-14:45";
 
-            $dia[1]="Lunes";
-            $dia[2]="Martes";
-            $dia[3]="Miercoles";
-            $dia[4]="Jueves";
-            $dia[5]="Viernes";
+            $dia[1] = "Lunes";
+            $dia[2] = "Martes";
+            $dia[3] = "Miercoles";
+            $dia[4] = "Jueves";
+            $dia[5] = "Viernes";
 
-            echo "<h2>Editando la ".$_POST["hora"]."º hora (".$horas[$_POST["hora"]].") del ".$dia[$_POST["dia"]]."</h2>";
+            $hora=$_POST["hora"];
+            echo "<h2>Editando la " . $_POST["hora"] . "º hora (" . $horas[$hora] . ") del " . $dia[$_POST["dia"]] . "</h2>";
             echo "<table><tr><th>Grupo</th><th>Acción</th></tr>";
             echo "<tr>";
 
-            echo"</tr>";
-
+            echo "</tr>";
+            if($_POST["hora"]>3){
+                $hora+=1;
+            }
             try {
-                $consulta = "select grupo from horario_lectivo where usuario=" . $_POST["btnEditar"] . " and hora=".$_POST["hora"]." and dia=" . $_POST["dia"] . "";
+                $consulta = "select grupo from horario_lectivo where usuario=" . $_POST["btnEditar"] . " and hora=" . $hora . " and dia=" . $_POST["dia"] . "";
                 $resultado = mysqli_query($conexion, $consulta);
             } catch (Exception $e) {
                 mysqli_close($conexion);
                 die("<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p></body></html>");
             }
-            
+
             $nombre = mysqli_fetch_assoc($resultado);
-            echo"<td>".$nombre["nombre"] ."</td>";
-            echo"<td><form method='post' action='index.php'><button class='enlace' type='submit' value='" . $id_profe . "' name='btnBorrar''>Quitar</button></form></td>";
+            $grupo = $nombre["grupo"];
+
+            try {
+                $consulta = "select nombre from grupos where id_grupo=" . $grupo. "";
+                $resultado = mysqli_query($conexion, $consulta);
+            } catch (Exception $e) {
+                mysqli_close($conexion);
+                die("<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p></body></html>");
+            }
+
+            $nombre = mysqli_fetch_assoc($resultado);
+            $grupo = $nombre["nombre"];
+            echo "<td>" . $nombre["nombre"] . "</td>";
+            echo "<td><form method='post' action='index.php'><button class='enlace' type='submit' value='" . $id_profe . "' name='btnBorrar''>Quitar</button></form></td>";
             "</table>";
         }
     }
