@@ -1,14 +1,5 @@
 <?php
-require "src/ctes_funciones.php";
 if (isset($_POST["btnContBorrar"])) {
-
-    try {
-        //Realizar conexión
-        $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2");
-        mysqli_set_charset($conexion, "utf8");
-    } catch (Exception $e) {
-        die(error_page("Primer CRUD", "<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p>"));
-    }
 
     try {
         $consulta = "delete from usuarios where id_usuario='" . $_POST["btnContBorrar"] . "'";
@@ -25,23 +16,14 @@ if (isset($_POST["btnContEditar"])) {
 
     $error_nombre = $_POST["name"] == "" || strlen($_POST["name"]) > 30;
     $error_usuario = $_POST["usu"] == "" || strlen($_POST["usu"]) > 20;
-    if (!$error_usuario) {
+    
 
-        try {
-            //Realizar conexión
-            $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2");
-            mysqli_set_charset($conexion, "utf8");
-        } catch (Exception $e) {
-            die(error_page("<h1>Primer CRUD</h1>", "<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p>"));
-        }
-    }
-
-    $error_usuario = repetido_editando($conexion, "usuarios", "usuario", $_POST["usu"], "id_usuario", $_POST["btnContEditar"]);
+    $error_usuario = repetido($conexion, "usuarios", "usuario", $_POST["usu"], "id_usuario", $_POST["btnContEditar"]);
     if (is_string($error_usuario)) {
 
         die($error_usuario);
     }
-    $error_pass =strlen($_POST["pass"]) > 15;
+    $error_pass = strlen($_POST["pass"]) > 15;
     $error_email = $_POST["email"] == "" || !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) || strlen($_POST["email"]) > 50;
     if (!$error_email) {
 
@@ -50,7 +32,7 @@ if (isset($_POST["btnContEditar"])) {
             try {
                 //Realizar conexión
                 $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2
-    ");
+");
                 mysqli_set_charset($conexion, "utf8");
             } catch (Exception $e) {
                 die(error_page("<h1>Primer CRUD</h1>", "<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p>"));
@@ -58,7 +40,7 @@ if (isset($_POST["btnContEditar"])) {
         }
 
 
-        $error_email = repetido_editando($conexion, "usuarios", "email", $_POST["email"], "id_usuario", $_POST["btnContEditar"]);
+        $error_email = repetido($conexion, "usuarios", "email", $_POST["email"], "id_usuario", $_POST["btnContEditar"]);
         if (is_string($error_email)) {
 
             die($error_email);
@@ -72,31 +54,30 @@ if (isset($_POST["btnContEditar"])) {
                 $consulta = "update usuarios set nombre='" . $_POST["name"] . "',usuario='" . $_POST["usu"] . "',email='" . $_POST["email"] . "' where id_usuario='" . $_POST["btnContEditar"] . "'";
             } else
                 $consulta = "update usuarios set nombre='" . $_POST["name"] . "',usuario='" . $_POST["usu"] . "',clave='" . md5($_POST["pass"]) . "',email='" . $_POST["email"] . "' where id_usuario='" . $_POST["btnContEditar"] . "'";
-            
-                mysqli_query($conexion, $consulta);
+
+            mysqli_query($conexion, $consulta);
         } catch (Exception $e) {
             mysqli_close($conexion);
             die(error_page("<h1>Primer CRUD</h1>", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
         }
-
-        mysqli_close($conexion);
         header("Location:index.php");
         exit;
     }
-    if (isset($conexion)) {
-        mysqli_close($conexion);
-    }
+    
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practica 1 CRUD</title>
+    <title>Primer Login</title>
     <style>
+        .enlinea {
+            display: inline
+        }
+
         table,
         td,
         th {
@@ -132,21 +113,16 @@ if (isset($_POST["btnContEditar"])) {
 </head>
 
 <body>
-    <h1>Listado de los usuarios</h1>
-
+    <h1>Primer Login - Vista Admin</h1>
+    <div>Bienvenido <strong><?php echo $datos_usuario_logueado["nombre"]; ?></strong> -
+        <form class='enlinea' action="index.php" method="post">
+            <button class='enlace' type="submit" name="btnSalir">Salir</button>
+        </form>
+    </div>
     <?php
-    try {
-        //Realizar conexión
-        $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2");
-        mysqli_set_charset($conexion, "utf8");
-    } catch (Exception $e) {
-        die("<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p></body></html>");
-    }
-
-
 
     try {
-        $consulta = "select * from usuarios";
+        $consulta = "select * from usuarios where tipo <> 'admin'";
         $resultado = mysqli_query($conexion, $consulta);
     } catch (Exception $e) {
         mysqli_close($conexion);
@@ -155,15 +131,15 @@ if (isset($_POST["btnContEditar"])) {
 
     echo "<table>";
     echo "<tr>
-                    <th>Nombre de Usuario</th><th>Borrar</th><th>Editar</th>
-             </tr>";
+                <th>Nombre de Usuario</th><th>Borrar</th><th>Editar</th><th width='80px'><form action='index.php' method='post'><button class='enlace' type='submit' name='btnInsertar'>+</button></form></th>
+         </tr>";
     while ($tupla = mysqli_fetch_assoc($resultado)) {
 
         echo "<tr>
-                            <td><form action='index.php' method='post'><button class='enlace' type='submit' name='botonDetalle' title='Detalles del usuario' value='" . $tupla["id_usuario"] . "'>" . $tupla["nombre"] . "</button></form></td>
-                            <td><form action='index.php' method='post'><input type='hidden' name='nombre_usuario' value='" . $tupla["nombre"] . "'><button class='enlace' type='submit' name='botonBorrar' title='Borrar usuario' value='" . $tupla["id_usuario"] . "'><img src='images/error.png'></button></form></td>
-                            <td><form action='index.php' method='post'><button class='enlace' type='submit' name='botonEditar' title='Editar usuario' value='" . $tupla["id_usuario"] . "'><img src='images/lapiz.png'></button></form></td>
-                </tr>";
+                        <td><form action='index.php' method='post'><button class='enlace' type='submit' name='botonDetalle' title='Detalles del usuario' value='" . $tupla["id_usuario"] . "'>" . $tupla["nombre"] . "</button></form></td>
+                        <td><form action='index.php' method='post'><input type='hidden' name='nombre_usuario' value='" . $tupla["nombre"] . "'><button class='enlace' type='submit' name='botonBorrar' title='Borrar usuario' value='" . $tupla["id_usuario"] . "'><img src='images/error.png'></button></form></td>
+                        <td><form action='index.php' method='post'><button class='enlace' type='submit' name='botonEditar' title='Editar usuario' value='" . $tupla["id_usuario"] . "'><img src='images/lapiz.png'></button></form></td>
+            </tr>";
     }
     echo "</table>";
     if (isset($_POST["botonDetalle"])) {
@@ -186,6 +162,7 @@ if (isset($_POST["btnContEditar"])) {
                 <strong> Nombre: </strong>" . $datos_usuario["nombre"] . "<br>
                 <strong> Usuario: </strong>" . $datos_usuario["usuario"] . "<br>
                 <strong> Email: </strong>" . $datos_usuario["email"] . "<br>
+                <strong> Tipo usuario: </strong>" . $datos_usuario["tipo"] . "<br>
                 
                 
         </p>";
@@ -202,7 +179,7 @@ if (isset($_POST["btnContEditar"])) {
         <button type='submit'>Atrás</button>
         </p>
         </form>";
-    } else if (isset($_POST["botonEditar"]) || isset($_POST["btnContEditar"])) {
+    } else if (isset($_POST["botonEditar"]) || isset($_POST["btnContEd  itar"])) {
 
         $id;
         if (isset($_POST["botonEditar"]))
@@ -219,7 +196,7 @@ if (isset($_POST["btnContEditar"])) {
         }
 
         if (mysqli_num_rows($resultado) > 0) {
-            
+
             $arr = mysqli_fetch_assoc($resultado);
 
     ?>
@@ -255,7 +232,7 @@ if (isset($_POST["btnContEditar"])) {
                     <?php
                     if (isset($_POST["btnContEditar"]) && $error_pass) {
 
-                         echo "<span class='error'>El tamaño debe ser menor que 15</span>";
+                        echo "<span class='error'>El tamaño debe ser menor que 15</span>";
                     }
                     ?>
                 </p>
@@ -273,7 +250,13 @@ if (isset($_POST["btnContEditar"])) {
                     ?>
                 </p>
                 <p>
-                    <button type="submit" name="btnContEditar" value="<?php echo $id?>">Continuar</button>
+                    <label for="admin">Admin</label>
+                    <input type="radio" name="tipo" id="admin" value="admin">
+                    <label for="normal">Normal</label>
+                    <input type="radio" name="tipo" id="normal" value="normal">
+                </p>
+                <p>
+                    <button type="submit" name="btnContEditar" value="<?php echo $id ?>">Continuar</button>
                     <button type="submit" name="volver">Volver</button>
                 </p>
             </form>
@@ -283,11 +266,8 @@ if (isset($_POST["btnContEditar"])) {
         } else {
             echo "<p>El usuario seleccionado no se encuentra registrado en la base de datos</p>";
         }
-    } else {
-        echo "<p><form action='usuario_nuevo.php' method='post' enctype='multipart/form-data'><button type='submit' name='insertar'>Inserta nuevo usuario</button></form></p>";
     }
     mysqli_free_result($resultado);
-    mysqli_close($conexion);
     ?>
 </body>
 

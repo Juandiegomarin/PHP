@@ -10,7 +10,7 @@ if (isset($_POST["insertar"]) || isset($_POST["continuar"])) {
 
             try {
                 //Realizar conexión
-                $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro");
+                $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2");
                 mysqli_set_charset($conexion, "utf8");
             } catch (Exception $e) {
                 die(error_page("<h1>Primer CRUD</h1>", "<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p>"));
@@ -34,7 +34,7 @@ if (isset($_POST["insertar"]) || isset($_POST["continuar"])) {
 
                 try {
                     //Realizar conexión
-                    $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro");
+                    $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2");
                     mysqli_set_charset($conexion, "utf8");
                 } catch (Exception $e) {
                     die(error_page("<h1>Primer CRUD</h1>", "<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p>"));
