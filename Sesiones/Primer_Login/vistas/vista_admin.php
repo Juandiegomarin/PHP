@@ -9,6 +9,7 @@ if (isset($_POST["btnContBorrar"])) {
         die(error_page("<h1>Primer CRUD</h1>", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
     }
     mysqli_close($conexion);
+    $_SESSION["mensaje"]="Usuario borrado con exito";
     header("Location:index.php");
     exit();
 }
@@ -16,7 +17,7 @@ if (isset($_POST["btnContEditar"])) {
 
     $error_nombre = $_POST["name"] == "" || strlen($_POST["name"]) > 30;
     $error_usuario = $_POST["usu"] == "" || strlen($_POST["usu"]) > 20;
-    
+
 
     $error_usuario = repetido($conexion, "usuarios", "usuario", $_POST["usu"], "id_usuario", $_POST["btnContEditar"]);
     if (is_string($error_usuario)) {
@@ -27,17 +28,6 @@ if (isset($_POST["btnContEditar"])) {
     $error_email = $_POST["email"] == "" || !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) || strlen($_POST["email"]) > 50;
     if (!$error_email) {
 
-        if (!isset($conexion)) {
-
-            try {
-                //Realizar conexión
-                $conexion = mysqli_connect("localhost", "jose", "josefa", "bd_foro2
-");
-                mysqli_set_charset($conexion, "utf8");
-            } catch (Exception $e) {
-                die(error_page("<h1>Primer CRUD</h1>", "<p>No ha podido conectarse a la a base de datos:" . $e->getMessage() . "</p>"));
-            }
-        }
 
 
         $error_email = repetido($conexion, "usuarios", "email", $_POST["email"], "id_usuario", $_POST["btnContEditar"]);
@@ -51,20 +41,64 @@ if (isset($_POST["btnContEditar"])) {
     if (!$error_form) {
         try {
             if ($_POST["pass"] == "") {
-                $consulta = "update usuarios set nombre='" . $_POST["name"] . "',usuario='" . $_POST["usu"] . "',email='" . $_POST["email"] . "' where id_usuario='" . $_POST["btnContEditar"] . "'";
+                $consulta = "update usuarios set nombre='" . $_POST["name"] . "',usuario='" . $_POST["usu"] . "',email='" . $_POST["email"] . "',tipo='" . $_POST["tipo"] . "' where id_usuario='" . $_POST["btnContEditar"] . "'";
             } else
-                $consulta = "update usuarios set nombre='" . $_POST["name"] . "',usuario='" . $_POST["usu"] . "',clave='" . md5($_POST["pass"]) . "',email='" . $_POST["email"] . "' where id_usuario='" . $_POST["btnContEditar"] . "'";
+                $consulta = "update usuarios set nombre='" . $_POST["name"] . "',usuario='" . $_POST["usu"] . "',clave='" . md5($_POST["pass"]) . "',email='" . $_POST["email"] . "',tipo='" . $_POST["tipo"] . "' where id_usuario='" . $_POST["btnContEditar"] . "'";
 
             mysqli_query($conexion, $consulta);
         } catch (Exception $e) {
             mysqli_close($conexion);
-            die(error_page("<h1>Primer CRUD</h1>", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
+            die(error_page("Primer CRUD", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
         }
+        $_SESSION["mensaje"]="Usuario actualizado con exito";
         header("Location:index.php");
         exit;
     }
-    
 }
+if (isset($_POST["btnContInsertar"])) {
+    $error_nombre = $_POST["name"] == "" || strlen($_POST["name"]) > 30;
+    $error_usuario = $_POST["usu"] == "" || strlen($_POST["usu"]) > 20;
+    if (!$error_usuario) {
+
+
+        $error_usuario = repetido($conexion, "usuarios", "usuario", $_POST["usu"]);
+        if (is_string($error_usuario)) {
+
+            die($error_usuario);
+        }
+    }
+    $error_pass = $_POST["pass"] == "" || strlen($_POST["pass"]) > 15;
+    $error_email = $_POST["email"] == "" || !filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) || strlen($_POST["email"]) > 50;
+    if (!$error_email) {
+
+
+        $error_email = repetido($conexion, "usuarios", "email", $_POST["email"]);
+        if (is_string($error_email)) {
+
+            die($error_email);
+        }
+    }
+    $error_tipo= $_POST["tipo"]=="";
+    $error_form = $error_nombre || $error_usuario || $error_pass || $error_email||$error_tipo;
+
+    if (!$error_form) {
+        echo "Tipo del usuario:".$_POST["tipo"];
+        try {
+            $consulta = "insert into usuarios (nombre,usuario,clave,email,tipo) values ('" . $_POST["name"] . "','" . $_POST["usu"] . "','" . md5($_POST["pass"]) . "','" . $_POST["email"] . "','" . $_POST["tipo"] . "')";
+            mysqli_query($conexion, $consulta);
+        } catch (Exception $e) {
+            mysqli_close($conexion);
+            die(error_page("Primer CRUD", "<p>No se ha podido realizar la consulta:" . $e->getMessage() . "</p>"));
+        }
+
+        mysqli_close($conexion);
+
+        $_SESSION["mensaje"]="Usuario insertado con exito";
+        header("Location:index.php");
+        exit;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -109,6 +143,10 @@ if (isset($_POST["btnContEditar"])) {
         .error {
             color: red;
         }
+        .azul{
+            font-size: 1.5em;
+            color: blue;
+        }
     </style>
 </head>
 
@@ -142,6 +180,11 @@ if (isset($_POST["btnContEditar"])) {
             </tr>";
     }
     echo "</table>";
+    if(isset($_SESSION["mensaje"])){
+        echo "<p class='azul'>".$_SESSION["mensaje"]."</p>";
+        unset($_SESSION["mensaje"]);
+    }
+
     if (isset($_POST["botonDetalle"])) {
 
         echo "<h3>Detalles del usuario con el id= " . $_POST["botonDetalle"] . "</h3>";
@@ -179,7 +222,7 @@ if (isset($_POST["btnContEditar"])) {
         <button type='submit'>Atrás</button>
         </p>
         </form>";
-    } else if (isset($_POST["botonEditar"]) || isset($_POST["btnContEd  itar"])) {
+    } else if (isset($_POST["botonEditar"]) || isset($_POST["btnContEditar"])) {
 
         $id;
         if (isset($_POST["botonEditar"]))
@@ -251,9 +294,9 @@ if (isset($_POST["btnContEditar"])) {
                 </p>
                 <p>
                     <label for="admin">Admin</label>
-                    <input type="radio" name="tipo" id="admin" value="admin">
+                    <input type="radio" name="tipo" id="admin" value="admin" <?php if ($arr["tipo"] == "admin") echo "checked" ?>>
                     <label for="normal">Normal</label>
-                    <input type="radio" name="tipo" id="normal" value="normal">
+                    <input type="radio" name="tipo" id="normal" value="normal" <?php if ($arr["tipo"] == "normal") echo "checked" ?>>
                 </p>
                 <p>
                     <button type="submit" name="btnContEditar" value="<?php echo $id ?>">Continuar</button>
@@ -262,10 +305,83 @@ if (isset($_POST["btnContEditar"])) {
             </form>
 
 
-    <?php
+        <?php
         } else {
             echo "<p>El usuario seleccionado no se encuentra registrado en la base de datos</p>";
         }
+    }
+    if (isset($_POST["btnInsertar"]) || isset($_POST["btnContInsertar"])) {
+        ?>
+        <h1>Nuevo Usuario</h1>
+
+        <form action="index.php" method="post" enctype="multipart/form-data">
+
+            <p>
+                <label for="name">Nombre:</label>
+                <input type="text" name="name" id="name" maxlength="30" value="<?php if (isset($_POST["name"])) echo $_POST["name"] ?>">
+                <?php
+                if (isset($_POST["btnContInsertar"]) && $error_nombre) {
+
+                    if ($_POST["name"] == "") echo "<span class='error'>Campo vacío</span>";
+                    else echo "<span class='error'>El tamaño debe ser menor que 30</span>";
+                }
+                ?>
+            </p>
+            <p>
+                <label for="usu">Ususario:</label>
+                <input type="text" name="usu" id="usu" maxlength="20" value="<?php if (isset($_POST["usu"])) echo $_POST["usu"] ?>">
+                <?php
+                if (isset($_POST["btnContInsertar"]) && $error_usuario) {
+
+                    if ($_POST["usu"] == "") echo "<span class='error'>Campo vacío</span>";
+                    else if (strlen($_POST["usu"]) > 20) echo "<span class='error'>El tamaño debe ser menor que 20</span>";
+                    else  echo "<span class='error'>Usuario repetido</span>";
+                }
+                ?>
+            </p>
+            <p>
+                <label for="pass">Contraseña: </label>
+                <input type="password" name="pass" id="pass" maxlength="15" value="<?php if (isset($_POST["pass"])) echo $_POST["pass"] ?>">
+                <?php
+                if (isset($_POST["btnContInsertar"]) && $error_pass) {
+
+                    if ($_POST["pass"] == "") echo "<span class='error'>Campo vacío</span>";
+                    else echo "<span class='error'>El tamaño debe ser menor que 15</span>";
+                }
+                ?>
+            </p>
+            <p>
+                <label for="email">Email:</label>
+                <input type="text" name="email" id="email" maxlength="50" value="<?php if (isset($_POST["email"])) echo $_POST["email"] ?>">
+                <?php
+                if (isset($_POST["btnContInsertar"]) && $error_email) {
+
+                    if ($_POST["email"] == "") echo "<span class='error'>Campo vacío</span>";
+                    else if (strlen($_POST["pass"]) > 50) echo "<span class='error'>El tamaño debe ser menor que 50</span>";
+                    else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) echo "<span class='error'>Email mal escrito</span>";
+                    else echo "<span class='error'>Email repetido</span>";
+                }
+                ?>
+            </p>
+            <p>
+                <label for="admin">Admin</label>
+                <input type="radio" name="tipo" id="admin" value="admin" <?php if (isset($_POST["btnContInsertar"]) && $_POST["tipo"] == "admin") echo "checked" ?>>
+                <label for="normal">Normal</label>
+                <input type="radio" name="tipo" id="normal" value="normal" <?php if (isset($_POST["btnContInsertar"]) && $_POST["tipo"] == "normal") echo "checked" ?>>
+                <?php
+                if(isset($_POST["btnContInsertar"])&& $_POST["tipo"]==""){
+                    echo "<span class='error'>No has seleccionado ningun tipo</span>";
+                }
+                ?>
+            </p>
+            <p>
+                <button type="submit" name="btnContInsertar">Continuar</button>
+                <button type="submit" name="volver">Volver</button>
+            </p>
+        </form>
+
+    <?php
+
     }
     mysqli_free_result($resultado);
     ?>
