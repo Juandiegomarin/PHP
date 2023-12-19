@@ -127,6 +127,10 @@ if (isset($_SESSION["usuario"])) {
             th{
                 background-color: lightgray;
             }
+            table img {
+            height: 60px;
+            width: 60px;
+        }
         </style>
     </head>
 
@@ -152,7 +156,7 @@ if (isset($_SESSION["usuario"])) {
         echo"<table>";
         echo"<tr><th>id</th><th>Titulo</th><th>Carátula</th></tr>";
         while($datos_pelis=mysqli_fetch_assoc($resultado)){
-            echo "<tr><td>".$datos_pelis["idPelicula"]."</td><td>".$datos_pelis["titulo"]."</td><td>".$datos_pelis["caratula"]."</td></tr>";
+            echo "<tr><td>".$datos_pelis["idPelicula"]."</td><td>".$datos_pelis["titulo"]."</td><td><img src='Img/".$datos_pelis["caratula"]."'/></td></tr>";
         }
         echo"</table>";
         ?>
