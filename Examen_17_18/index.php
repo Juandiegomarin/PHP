@@ -33,7 +33,7 @@ if (isset($_POST["btnEntrar"])) {
             mysqli_close($conexion);
             die(error_page("Examen Login", "<h1>Primer Login</h1><p>No se ha podido realizar la consulta: " . $e->getMessage() . "</p>"));
         }
-        echo $consulta;
+        
         if (mysqli_num_rows($resultado) > 0) {
 
             $_SESSION["usuario"] = $_POST["nombre"];
