@@ -98,16 +98,21 @@ if (isset($_SESSION["usuario"])) {
         exit;
     }
     $_SESSION["ultima_accion"] = time();
-?>
-    <!DOCTYPE html>
-    <html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Logeado</title>
-        <style>
-            .enlace {
+    if($datos_usuario_logueado["tipo"]=="admin"){
+        mysqli_close($conexion);
+        header("Location:admin/index.php");
+        exit;
+    }else{
+        ?>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <style>
+                .enlace {
                 border: none;
                 background: none;
                 cursor: pointer;
@@ -118,51 +123,21 @@ if (isset($_SESSION["usuario"])) {
             .enlinea {
                 display: inline
             }
-            table{
-                border: 1px solid black;
-                width: 60%;
-                text-align: center;
-                
-            }
-            th{
-                background-color: lightgray;
-            }
-            table img {
-            height: 60px;
-            width: 60px;
-        }
-        </style>
-    </head>
-
-    <body>
+            </style>
+        </head>
+        <body>
         <h1>VideoClub</h1>
         <div>Bienvenido <strong><?php echo $datos_usuario_logueado["usuario"]; ?></strong> -
             <form class='enlinea' action="index.php" method="post">
                 <button class='enlace' type="submit" name="btnSalir">Salir</button>
             </form>
         </div>
-
-        <h2>Listado de Peliculas</h2>
+        </body>
+        </html>
         <?php
-        try {
-            $consulta = "select * from peliculas";
-            $resultado = mysqli_query($conexion, $consulta);
-        } catch (Exception $e) {
-            session_destroy();
-            mysqli_close($conexion);
-            die(error_page("Examen Login", "<h1>Primer Login</h1><p>No se ha podido realizar la consulta: " . $e->getMessage() . "</p>"));
-        }
-
-        echo"<table>";
-        echo"<tr><th>id</th><th>Titulo</th><th>Carátula</th></tr>";
-        while($datos_pelis=mysqli_fetch_assoc($resultado)){
-            echo "<tr><td>".$datos_pelis["idPelicula"]."</td><td>".$datos_pelis["titulo"]."</td><td><img src='Img/".$datos_pelis["caratula"]."'/></td></tr>";
-        }
-        echo"</table>";
-        ?>
-    </body>
-
-    </html>
+    }
+?>
+    
 
 
 
@@ -180,6 +155,7 @@ if (isset($_SESSION["usuario"])) {
             .error {
                 color: red
             }
+            
         </style>
     </head>
 
