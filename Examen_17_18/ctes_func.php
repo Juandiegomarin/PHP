@@ -1,10 +1,10 @@
 <?php
-define("MINUTOS", 5);
+define("MINUTOS","" );
 
 define("SERVIDOR_BD", "localhost");
 define("USUARIO_BD", "jose");
 define("CLAVE_BD", "josefa");
-define("NOMBRE_BD", "bd_videoclub2");
+define("NOMBRE_BD", "");
 
 function repetido($conexion, $tabla, $columna, $valor, $columna_clave = null, $valor_clave = null)
 {
