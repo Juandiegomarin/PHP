@@ -25,20 +25,32 @@ function error_page($title,$body)
 // Con seis argumentos comprueba si hay repetidos cuándo editamos
 function repetido($conexion,$tabla,$columna,$valor,$columna_clave=null,$valor_clave=null)
 {
+   
+
     try{
         if(isset($columna_clave))
-            $consulta="select * from ".$tabla." where ".$columna."='".$valor."' AND ".$columna_clave."<>'".$valor_clave."'";
+        {
+            $consulta="select * from ".$tabla." where ".$columna."=? AND ".$columna_clave."<>?";
+            $datos=[$valor,$valor_clave];
+        }
         else
-            $consulta="select * from ".$tabla." where ".$columna."='".$valor."'";
+        {
+            $consulta="select * from ".$tabla." where ".$columna."=?";
+            $datos=[$valor];
+        }
 
-        $resultado=mysqli_query($conexion, $consulta);
-        $respuesta=mysqli_num_rows($resultado)>0;
-        mysqli_free_result($resultado);
+        $sentencia=$conexion->prepare($consulta);
+        $sentencia->execute($datos);
+        $respuesta=$sentencia->rowCount()>0;
     }
-    catch(Exception $e)
+    catch(PDOException $e)
     {
         $respuesta=$e->getMessage();
     }
+
+    $sentencia=null;
+
+
     return $respuesta;
 }
 

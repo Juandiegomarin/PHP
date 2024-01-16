@@ -7,25 +7,26 @@
         $error_form=$error_usuario||$error_clave;
         if(!$error_form)
         {
-            try{
-                $consulta="select * from usuarios where lector='".$_POST["usuario"]."' and clave='".md5($_POST["clave"])."'";
-                $resultado=mysqli_query($conexion,$consulta);
-            }
-            catch(Exception $e)
-            {
+            try {
+                $consulta="select * from usuarios where lector= ? and clave= ?";
+                $sentencia = $conexion->prepare($consulta);
+                $sentencia->execute([$_POST["usuario"], md5($_POST["clave"])]);
+            } catch (PDOException $e) {
                 session_destroy();
-                mysqli_close($conexion);
-                die(error_page("Examen3 Curso 23-24","<h1>Librería</h1><p>No se ha podido realizar la consulta: ".$e->getMessage()."</p>"));
+                $sentencia = null;
+                $conexion = null;
+                die("<p>No se ha podido realizar la consulta: " . $e->getMessage() . "</p></body></html>");
             }
+
             
-            if(mysqli_num_rows($resultado)>0)
+            if($sentencia->rowCount()>0)
             {
                 $_SESSION["usuario"]=$_POST["usuario"];
                 $_SESSION["clave"]=md5($_POST["clave"]);
                 $_SESSION["ultima_accion"]=time();
-                $datos_usu_log=mysqli_fetch_assoc($resultado);
-                mysqli_free_result($resultado);
-                mysqli_close($conexion);
+                $datos_usu_log=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+                $sentencia=null;
+                $conexion=null;
 
                 if($datos_usu_log["tipo"]=="normal")
                 {
@@ -40,7 +41,7 @@
             else
                 $error_usuario=true;
          
-            mysqli_free_result($resultado);
+            $sentencia=null;
         }
 
     }
