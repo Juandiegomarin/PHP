@@ -1,9 +1,16 @@
 <?php
 
-if(isset($_POST["botonOK"])){
-    $n_reg_mostrar=$_POST["disposicion"];
-}else{
-    $n_reg_mostrar=3;
+if(!isset($_SESSION["n_registros"]))
+{
+    $_SESSION["n_registros"]=3;
+    $_SESSION["buscar"]="";
+}
+
+if(isset($_POST["n_registros"]))
+{
+    $_SESSION["n_registros"]=$_POST["n_registros"];
+    $_SESSION["buscar"]=$_POST["buscar"];
+    $_SESSION["pag"]=1;
 }
 
 if(!isset($_SESSION["pag"]))
@@ -30,10 +37,51 @@ if(!isset($conexion))
     }
 }
 
+?>   
+<h2>Listado de los usuarios</h2>
+<form id='regis_busc' action='index.php' method='post'>
+    <div>
+        <label for='n_registros'>Registros a mostrar: </label>
+        <select name="n_registros" id="n_registros" onchange="document.getElementById('regis_busc').submit();">
+            <option value="3" <?php if($_SESSION["n_registros"]=="3") echo "selected";?>>3</option>
+            <option value="6" <?php if($_SESSION["n_registros"]=="6") echo "selected";?>>6</option>
+            <option value="-1" <?php if($_SESSION["n_registros"]=="-1") echo "selected";?>>TODOS</option>
+        </select>
+    </div>
+    <div>
+        <input type="text" name="buscar" value="<?php echo $_SESSION["buscar"];?>"><button type="submit" name="btnBuscar">Buscar</button>
+    </div>
+</form>
+<?php
 
 try{
-    $inic_limit=($_SESSION["pag"]-1)*$n_reg_mostrar;
-    $consulta="select * from usuarios limit ".$inic_limit.",".$n_reg_mostrar;
+    if($_SESSION["buscar"]=="")
+    {
+        if($_SESSION["n_registros"]=="-1")
+        {
+            $consulta="select * from usuarios";
+        }
+        else
+        {
+            $inic_limit=($_SESSION["pag"]-1)*$_SESSION["n_registros"];
+            $consulta="select * from usuarios limit ".$inic_limit.",".$_SESSION["n_registros"];
+        }
+    }
+    else
+    {
+        if($_SESSION["n_registros"]=="-1")
+        {
+            $consulta="select * from usuarios where nombre LIKE '%".$_SESSION["buscar"]."%'";
+        }
+        else
+        {
+            $inic_limit=($_SESSION["pag"]-1)*$_SESSION["n_registros"];
+            $consulta="select * from usuarios where nombre LIKE '%".$_SESSION["buscar"]."%' limit ".$inic_limit.",".$_SESSION["n_registros"];
+        }
+    }
+
+    
+    
     $sentencia=$conexion->prepare($consulta);
     $sentencia->execute();
 }
@@ -48,35 +96,6 @@ catch(PDOException $e)
 $resultado=$sentencia->fetchAll(PDO::FETCH_ASSOC);
 $sentencia=null;
 
-try{
-   
-    $consulta="select * from usuarios";
-    $sentencia=$conexion->prepare($consulta);
-    $sentencia->execute();
-}
-catch(PDOException $e)
-{
-    $sentencia=null;
-    $conexion=null;
-    session_destroy();
-    die("<p>No se ha podido realizar la consulta: ".$e->getMessage()."</p></body></html>");
-}
-$todos=$sentencia->rowCount();
-$sentencia=null;
-    
-echo "<h2>Listado de los usuarios</h2>";
-echo "<h4>Elige la disposición en filas de los usuarios</h4>";
-
-echo "<form action='index.php' method='post'>";
-echo "<select name='disposicion'>";
-echo "<option value='3'>3</option>";
-echo "<option value='6'>6</option>";
-echo "<option value='".$todos."'>Todos</option>";
-echo "</select>";
-echo "<button type='submit' name='botonOK'>OK</button>";
-echo "</form>";
-echo"<br>";
-echo"<br>";
 echo "<table>";
 echo "<tr><th>Nombre de Usuario</th><th>Borrar</th><th>Editar</th></tr>";
 foreach($resultado as $tupla)
@@ -90,8 +109,14 @@ foreach($resultado as $tupla)
 echo "</table>";
 
 try{
-   
-    $consulta="select * from usuarios";
+    if($_SESSION["buscar"]=="")
+    {
+        $consulta="select * from usuarios";
+    }
+    else
+    {
+        $consulta="select * from usuarios where nombre LIKE '%".$_SESSION["buscar"]."%'";
+    }
     $sentencia=$conexion->prepare($consulta);
     $sentencia->execute();
 }
@@ -103,11 +128,11 @@ catch(PDOException $e)
     die("<p>No se ha podido realizar la consulta: ".$e->getMessage()."</p></body></html>");
 }
 
-$n_paginas=ceil($sentencia->rowCount()/$n_reg_mostrar);
+$n_paginas=ceil($sentencia->rowCount()/$_SESSION["n_registros"]);
 $sentencia=null;
 if($n_paginas>1)
 {
-    echo "<form action='index.php' method='post'>";
+    echo "<form id='paginas' action='index.php' method='post'>";
     echo "<p>";
     if($_SESSION["pag"]!=1)
     {

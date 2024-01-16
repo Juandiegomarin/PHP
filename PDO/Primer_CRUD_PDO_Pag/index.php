@@ -143,12 +143,15 @@ if(isset($_POST["btnContBorrar"]))
     <title>Práctica 1º CRUD</title>
     <style>
         table,td,th{border:1px solid black}
-        table{border-collapse:collapse;text-align:center}
+        table{border-collapse:collapse;text-align:center;width:80%;margin:0 auto}
         th{background-color:#CCC}
         table img{width:50px;}
         .enlace{border:none;background:none;cursor:pointer;color:blue;text-decoration:underline}
         .error{color:red}
         .mensaje{color:blue;font-size:1.5em}  
+        #paginas{width:80%;margin:0 auto;text-align:center;}
+        #paginas button{margin:0 0.25em;padding:0.5em}
+        #regis_busc{width:80%;margin:0 auto;display:flex;justify-content:space-between}
     </style>
 </head>
 <body>
