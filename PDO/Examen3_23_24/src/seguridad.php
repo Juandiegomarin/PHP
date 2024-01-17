@@ -1,7 +1,7 @@
 <?php
 
  try {
-    $consulta="select * from usuarios where lector= ? and clave= ?";
+    $consulta="select * from usuarios where lector=? and clave=?";
     $sentencia = $conexion->prepare($consulta);
     $sentencia->execute([$_SESSION["usuario"],$_SESSION["clave"]]);
 } catch (PDOException $e) {
@@ -21,7 +21,7 @@ if($sentencia->rowCount()<=0)
     exit;
 }
 
-$datos_usuario_logueado=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+$datos_usuario_logueado=$sentencia->fetch(PDO::FETCH_ASSOC);
 $sentencia=null;
 
 // Ahora control de inactividad

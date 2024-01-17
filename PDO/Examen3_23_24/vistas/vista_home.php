@@ -8,9 +8,10 @@
         if(!$error_form)
         {
             try {
-                $consulta="select * from usuarios where lector= ? and clave= ?";
+                $consulta="select * from usuarios where lector=? and clave=?";
                 $sentencia = $conexion->prepare($consulta);
-                $sentencia->execute([$_POST["usuario"], md5($_POST["clave"])]);
+                $clave_encriptada=md5($_POST["clave"]);
+                $sentencia->execute([$_POST["usuario"],$clave_encriptada ]);
             } catch (PDOException $e) {
                 session_destroy();
                 $sentencia = null;
@@ -22,9 +23,9 @@
             if($sentencia->rowCount()>0)
             {
                 $_SESSION["usuario"]=$_POST["usuario"];
-                $_SESSION["clave"]=md5($_POST["clave"]);
+                $_SESSION["clave"]=$clave_encriptada;
                 $_SESSION["ultima_accion"]=time();
-                $datos_usu_log=$sentencia->fetchAll(PDO::FETCH_ASSOC);
+                $datos_usu_log=$sentencia->fetch(PDO::FETCH_ASSOC);
                 $sentencia=null;
                 $conexion=null;
 
@@ -34,7 +35,7 @@
                 }
                 else
                 {
-                    header("Location:admin/gest_libros.php");
+                   header("Location:admin/gest_libros.php");
                 }
                 exit();
             }

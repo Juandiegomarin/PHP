@@ -1,7 +1,7 @@
 <?php
 session_name("examen3_23_24");
 session_start();
-session_destroy();
+
 require "src/funct_ctes.php";
 
 if (isset($_POST["btnSalir"])) {
