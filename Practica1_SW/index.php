@@ -21,7 +21,8 @@ $obj = json_decode($respuesta);
 if (!$obj) die("<p>Error consumiendo el servicio " . $url . " </p>" . $respuesta);
 $obj="Lista de productos";
 //echo "<p>El saludo recibido ha sido <strong>" . $obj->productos . "</strong></p>";
-echo "<p>Insertado con exito</p>";
+
+
 
 
 //Ejercicio2
