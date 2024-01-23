@@ -1,10 +1,11 @@
 <?php
-define("SERVIDOR_BD","localhost:3306");
-define("USUARIO_BD","jose");
-define("CLAVE_BD","josefa");
-define("NOMBRE_BD","bd_tienda");
+define("SERVIDOR_BD", "localhost");
+define("USUARIO_BD", "jose");
+define("CLAVE_BD", "josefa");
+define("NOMBRE_BD", "bd_tienda");
 
-function productos(){
+function productos()
+{
 
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -23,16 +24,16 @@ function productos(){
         return $respuesta;
     }
 
-    $respuesta["productos"]= $sentencia->fetchAll(PDO::FETCH_ASSOC);
-    
+    $respuesta["productos"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
     $sentencia = null;
     $conexion = null;
-    
-    return $respuesta;
 
+    return $respuesta;
 }
 
-function producto($cod){
+function producto($cod)
+{
 
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -51,18 +52,16 @@ function producto($cod){
         return $respuesta;
     }
 
-    $respuesta["producto"]= $sentencia->fetchAll(PDO::FETCH_ASSOC);
-    if($sentencia->rowCount($respuesta)>0){
-        $respuesta["producto"]=$sentencia->fetch(PDO::FETCH_ASSOC);
-    }
-    else{
-        $respuesta["mensaje"]="No hay ningun producto con este codigo en la base de datos";
+    
+    if ($sentencia->rowCount() > 0) {
+        $respuesta["producto"] = $sentencia->fetch(PDO::FETCH_ASSOC);
+    } else {
+        $respuesta["mensaje"] = "No hay ningun producto con este codigo en la base de datos";
     }
     $sentencia = null;
     $conexion = null;
-    
-    return $respuesta;
 
+    return $respuesta;
 }
 
 function insertar($cod, $nombre, $nombre_corto, $descripcion, $pvp, $familia)
@@ -86,7 +85,7 @@ function insertar($cod, $nombre, $nombre_corto, $descripcion, $pvp, $familia)
     }
     $sentencia = null;
     $conexion = null;
-    $respuesta["mensaje"] = "El producto ".$nombre_corto." insertado correctamente";
+    $respuesta["mensaje"] = "El producto " . $nombre_corto . " insertado correctamente";
     return $respuesta;
 };
 
@@ -111,7 +110,7 @@ function actualizar($cod, $nombre, $nombre_corto, $descripcion, $pvp, $familia)
     }
     $sentencia = null;
     $conexion = null;
-    $respuesta["mensaje"] = "El producto ".$nombre_corto." actualizado correctamente";
+    $respuesta["mensaje"] = "El producto " . $nombre_corto . " actualizado correctamente";
     return $respuesta;
 };
 
@@ -136,11 +135,12 @@ function borrar($cod)
     }
     $sentencia = null;
     $conexion = null;
-    $respuesta["mensaje"] = "El producto ".$cod." borrado correctamente";
+    $respuesta["mensaje"] = "El producto " . $cod . " borrado correctamente";
     return $respuesta;
 };
 
-function familias(){
+function familias()
+{
 
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -159,16 +159,16 @@ function familias(){
         return $respuesta;
     }
 
-    $respuesta["familias"]= $sentencia->fetchAll(PDO::FETCH_ASSOC);
-    
+    $respuesta["familias"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+
     $sentencia = null;
     $conexion = null;
-    
-    return $respuesta;
 
+    return $respuesta;
 }
 
-function repetido($tabla,$columna,$valor){
+function repetido($tabla, $columna, $valor)
+{
 
     try {
         $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -177,9 +177,9 @@ function repetido($tabla,$columna,$valor){
         return $respuesta;
     }
     try {
-        $consulta = "select * from ".$tabla." where ".$columna." = ?";
+        $consulta = "select * from " . $tabla . " where " . $columna . " = ?";
         $sentencia = $conexion->prepare($consulta);
-        $sentencia->execute($valor);
+        $sentencia->execute([$valor]);
     } catch (PDOException $e) {
         $sentencia = null;
         $conexion = null;
@@ -187,16 +187,14 @@ function repetido($tabla,$columna,$valor){
         return $respuesta;
     }
 
-    if($sentencia->rowCount()>=0)
-    $respuesta["repetido"]= true;
-    else{
-        $respuesta["repetido"]= true;
+    if ($sentencia->rowCount() >= 0)
+        $respuesta["repetido"] = true;
+    else {
+        $respuesta["repetido"] = false;
     }
-    
+
     $sentencia = null;
     $conexion = null;
-    
-    return $respuesta;
 
+    return $respuesta;
 }
-?>
