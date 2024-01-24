@@ -19,58 +19,65 @@ $url = DIR_SERV . "/productos";
 $respuesta = consumir_servicios_REST($url, "GET");
 $obj = json_decode($respuesta);
 if (!$obj) die("<p>Error consumiendo el servicio " . $url . " </p>" . $respuesta);
-$obj="Lista de productos";
 //echo "<p>El saludo recibido ha sido <strong>" . $obj->productos . "</strong></p>";
-echo "<p>Insertado con exito</p>";
+echo "<ol>";
+foreach ($obj->productos as $producto) {
+    echo "<li>".$producto->nombre_corto."</li>";
+}
+echo "</ol>";
 
 
 //Ejercicio2
 echo "---------------------------------------Ejercicio2------------------------------------------------";
-$url = DIR_SERV . "/producto/3DSNG";
+$url = DIR_SERV . "/producto/ACERAX3950";
 $respuesta = consumir_servicios_REST($url, "GET");
 $obj = json_decode($respuesta);
 if (!$obj) die("<p>Error consumiendo el servicio " . $url . " </p>" . $respuesta);
 //echo "<p>El saludo recibido ha sido <strong>" . $obj->producto . "</strong></p>";
-echo "<p>Este es el producto</p>";
+echo "<p>Este es el producto:".$obj->producto->nombre_corto."</p>";
 //Ejercicio 3
 echo "---------------------------------------Ejercicio3------------------------------------------------";
-$url = DIR_SERV . "/producto/insertar";
-$producto["cod"] = "YYYYYY";
-$producto["nombre"] = "Producto1";
-$producto["nombre_corto"] = "Producto1";
-$producto["descripcion"] = "Producto1";
-$producto["pvp"] = 1;
-$producto["familia"] = "CAMARA";
 
-$respuesta = consumir_servicios_REST($url, "POST", $producto);
+$url = DIR_SERV . "/producto/insertar";
+
+$dato["cod"] = "XXXXX";
+$dato["nombre"] = "Producto1";
+$dato["nombre_corto"] = "Producto2";
+$dato["descripcion"] = "Producto1";
+$dato["pvp"] = 1;
+$dato["familia"] = "CAMARA";
+
+$respuesta = consumir_servicios_REST($url, "POST", $dato);
 $obj = json_decode($respuesta);
 if (!$obj) die("<p>Error consumiendo el servicio " . $url . " </p>" . $respuesta);
-echo "<p>El saludo recibido ha sido <strong>" . $obj->mensaje . "</strong></p>";
+
+echo "<p>".$obj->mensaje."</p>";
 
 //Ejercicio 4
 echo "---------------------------------------Ejercicio4------------------------------------------------";
-$url = DIR_SERV . "/producto/actualizar/3DSNG";
+$url = DIR_SERV . "/producto/actualizar/XXXXX";
 
 $datos["nombre"] = "nombre_aux";
-$datos["nombre_corto"] = "nombre_aux";
+$datos["nombre_corto"] = "nombre_au";
 $datos["descripcion"] = "nombre_aux";
 $datos["pvp"] = 2;
-$datos["nombre"] = "CAMARA";
+$datos["familia"] = "CAMARA";
 
 $respuesta = consumir_servicios_REST($url, "PUT", $datos);
 $obj = json_decode($respuesta);
 if (!$obj) die("<p>Error consumiendo el servicio " . $url . " </p>" . $respuesta);
 //echo "<p>El saludo recibido ha sido <strong>" . $obj->mensaje . "</strong></p>";
-echo "<p>Este es el producto actualizado</p>"; 
+
+echo "<p>".$obj->mensaje."</p>";
 //Ejercicio 5
 echo "---------------------------------------Ejercicio5------------------------------------------------";
-$url = DIR_SERV . "/producto/borrar/3DSNG";
+$url = DIR_SERV . "/producto/borrar/XXXXX";
 
 $respuesta = consumir_servicios_REST($url, "DELETE");
 $obj = json_decode($respuesta);
 if (!$obj) die("<p>Error consumiendo el servicio " . $url . " </p>" . $respuesta);
 //echo "<p>El saludo recibido ha sido <strong>" . $obj->mensaje . "</strong></p>";
-echo "<p>Borrado correctamente</p>";
+echo "<p>".$obj->mensaje."</p>";
 //Ejercicio 6
 echo "---------------------------------------Ejercicio6------------------------------------------------";
 $url = DIR_SERV . "/familias";
