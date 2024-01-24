@@ -187,7 +187,38 @@ function repetido($tabla, $columna, $valor)
         return $respuesta;
     }
 
-    if ($sentencia->rowCount() >= 0)
+    if ($sentencia->rowCount() >0)
+        $respuesta["repetido"] = true;
+    else {
+        $respuesta["repetido"] = false;
+    }
+
+    $sentencia = null;
+    $conexion = null;
+
+    return $respuesta;
+}
+function repetidoEditando($tabla, $columna, $valor,$columna_id,$valor_id)
+{
+
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+        $respuesta["mensaje_error"] = "No he podido conectarse a la base de batos: " . $e->getMessage() . "</p>";
+        return $respuesta;
+    }
+    try {
+        $consulta = "select * from " . $tabla . " where " . $columna . " = ? AND ".$columna_id." <> ?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$valor,$valor_id]);
+    } catch (PDOException $e) {
+        $sentencia = null;
+        $conexion = null;
+        $respuesta["mensaje_error"] = "Error en la consulta: " . $e->getMessage() . "</p>";
+        return $respuesta;
+    }
+
+    if ($sentencia->rowCount()>0)
         $respuesta["repetido"] = true;
     else {
         $respuesta["repetido"] = false;

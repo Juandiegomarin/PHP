@@ -58,6 +58,16 @@ $app->get("/repetido/{tabla}/{columna}/{valor}", function ($request) {
 
     echo json_encode(repetido($tabla, $columna, $valor));
 });
+$app->get("/repetidoEditando/{tabla}/{columna}/{valor}/{columna_id}/{valor_id}", function ($request) {
+
+    $tabla = $request->getAttribute("tabla");
+    $columna = $request->getAttribute("columna");
+    $valor = $request->getAttribute("valor");
+    $columna_id = $request->getAttribute("columna_id");
+    $valor_id = $request->getAttribute("valor_id");
+
+    echo json_encode(repetidoEditando($tabla, $columna, $valor,$columna_id,$valor_id));
+});
 //$app->post();
 //$app->put();
 //$app->delete();
