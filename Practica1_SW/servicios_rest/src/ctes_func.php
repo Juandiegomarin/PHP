@@ -99,7 +99,7 @@ function actualizar($cod, $nombre, $nombre_corto, $descripcion, $pvp, $familia)
         return $respuesta;
     }
     try {
-        $consulta = "update producto set nombre = ?,nombre_corto = ?, descripcion = ?,PV P= ?,familia = ? where cod = ?";
+        $consulta = "update producto set nombre = ?,nombre_corto = ?, descripcion = ?,PVP= ?,familia = ? where cod = ?";
         $sentencia = $conexion->prepare($consulta);
         $sentencia->execute([$nombre, $nombre_corto, $descripcion, $pvp, $familia, $cod]);
     } catch (PDOException $e) {
@@ -218,11 +218,9 @@ function repetidoEditando($tabla, $columna, $valor,$columna_id,$valor_id)
         return $respuesta;
     }
 
-    if ($sentencia->rowCount()>0)
-        $respuesta["repetido"] = true;
-    else {
-        $respuesta["repetido"] = false;
-    }
+    
+        $respuesta["repetido"] = ($sentencia->rowCount())>0;
+   
 
     $sentencia = null;
     $conexion = null;
