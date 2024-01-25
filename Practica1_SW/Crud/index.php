@@ -230,7 +230,7 @@ if (isset($_POST["btnContBorrar"])) {
 
                 <p>
                     <label for="descripcion">Descripcion:</label>
-                    <textarea name="descripcion" id="descripcion" cols="30" rows="3" value="<?php if (isset($_POST["descripcion"])) echo $_POST["descripcion"] ?>"></textarea>
+                    <textarea name="descripcion" id="descripcion" cols="30" rows="3"><?php if (isset($_POST["descripcion"])) echo $_POST["descripcion"] ?></textarea>
                 </p>
                 <p>
                     <label for="pvp">PVP:</label>
@@ -337,11 +337,11 @@ if (isset($_POST["btnContBorrar"])) {
 
                 <p>
                     <label for="descripcion">Descripcion:</label>
-                    <textarea name="descripcion" id="descripcion" cols="30" rows="3" value="<?php if (isset($_POST["descripcion"])) {
+                    <textarea name="descripcion" id="descripcion" cols="30" rows="3"><?php if (isset($_POST["descripcion"])) {
                                                                                                 echo $_POST["descripcion"];
                                                                                             } else {
                                                                                                 echo $datos["descripcion"];
-                                                                                            } ?>"></textarea>
+                                                                                            } ?></textarea>
                 </p>
                 <p>
                     <label for="pvp">PVP:</label>
