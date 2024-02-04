@@ -156,6 +156,7 @@ function obtener_usuarios()
 }
 
 
+
 function insertar_usuario($datos)
 {
     try
@@ -180,7 +181,8 @@ function insertar_usuario($datos)
     }
 
  
-        $respuesta["ult_id"]=$conexion->lastInsertId();
+      //  $respuesta["ult_id"]=$conexion->lastInsertId();
+      $respuesta["mensaje"]="Usuario insertado con exito";
   
     $sentencia=null;
     $conexion=null;

@@ -12,6 +12,7 @@ $app->get('/usuarios',function(){
     echo json_encode(obtener_usuarios());
 });
 
+
 $app->get('/usuario/{id_usuario}',function($request){
 
     echo json_encode(obtener_usuario($request->getAttribute("id_usuario")));
