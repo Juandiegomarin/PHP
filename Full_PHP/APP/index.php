@@ -145,7 +145,7 @@ if (isset($_POST["btnContEditar"])) {
 
     if (!$error_form) {
 
-        if ($_POST["clave"] == "") {
+        if ($_POST["clave"] != "") {
            
             $url = DIR_SERV . "/actualizarUsuario/" . urlencode($_POST["btnContEditar"]);
 
