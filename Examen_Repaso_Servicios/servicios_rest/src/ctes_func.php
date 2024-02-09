@@ -146,3 +146,72 @@ function obtener_nombre_grupo($id_grupo)
 
     return $respuesta;
 }
+function obtener_profesores(){
+
+
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+
+        return array("error" => "No se ha podido conectar a la base de batos: " . $e->getMessage());
+    }
+
+    try {
+        $consulta = "select * from usuarios where tipo!=?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute(["admin"]);
+    } catch (PDOException $e) {
+        $conexion = null;
+        $sentencia = null;
+        return array("error" => "No se ha podido realizar la consulta: " . $e->getMessage());
+    }
+
+
+
+    if ($sentencia->rowCount() > 0) {
+
+        $respuesta["profesores"] = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    $conexion = null;
+    $sentencia = null;
+
+
+    return $respuesta;
+}
+
+function obtener_profesor($id){
+
+
+    try {
+        $conexion = new PDO("mysql:host=" . SERVIDOR_BD . ";dbname=" . NOMBRE_BD, USUARIO_BD, CLAVE_BD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+    } catch (PDOException $e) {
+
+        return array("error" => "No se ha podido conectar a la base de batos: " . $e->getMessage());
+    }
+
+    try {
+        $consulta = "select * from usuarios where id_usuario=?";
+        $sentencia = $conexion->prepare($consulta);
+        $sentencia->execute([$id]);
+    } catch (PDOException $e) {
+        $conexion = null;
+        $sentencia = null;
+        return array("error" => "No se ha podido realizar la consulta: " . $e->getMessage());
+    }
+
+
+
+    if ($sentencia->rowCount() > 0) {
+
+        $respuesta["profesor"] = $sentencia->fetch(PDO::FETCH_ASSOC);
+    }else{
+        $respuesta["mensaje"] = "No se ha encontrado este profesor";
+    }
+
+    $conexion = null;
+    $sentencia = null;
+
+
+    return $respuesta;
+}

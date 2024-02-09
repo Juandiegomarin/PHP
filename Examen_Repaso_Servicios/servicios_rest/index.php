@@ -71,7 +71,30 @@ $app->get("/obtenerNombreGrupo/{id_grupo}",function($request){
 
 });
 
+$app->get("/obtenerProfesores/{token}",function($request){
+    
+     $token=$request->getAttribute("token");
+     session_id($token);
+     session_start();
+     if(isset($_SESSION{"usuario"}) && $_SESSION["tipo"]=="admin"){
+      echo  json_encode(obtener_profesores());
+     }else{
+        echo json_encode(array("no_auth"=>"No tienes acceso a este servicio"));
+     }
+});
 
+$app->get("/obtenerProfesor/{id}/{token}",function($request){
+    $token=$request->getAttribute("token");
+    session_id($token);
+    session_start();
+    if(isset($_SESSION{"usuario"}) && $_SESSION["tipo"]=="admin"){
+     $id_usuario=$request->getAttribute("id"); 
+     echo  json_encode(obtener_profesor($id_usuario));
+    }else{
+       echo json_encode(array("no_auth"=>"No tienes acceso a este servicio"));
+    }
+});
+   
 
 $app->run();
 ?>
