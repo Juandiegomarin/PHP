@@ -317,7 +317,7 @@ if (isset($_SESSION["usuario"])) {
                 echo "</table>";
 
                 if(isset($_POST["btnEditar"])){
-                    $horas[1] = "8:45 - 9:45";
+                    $horas[1] = "8:15 - 9:15";
                     $horas[] = "9:15 - 10:15";
                     $horas[] = "10:15 - 11:15";
                     $horas[] = "11:45 - 12:45";
