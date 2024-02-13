@@ -109,19 +109,18 @@ if (isset($_SESSION["usuario"])) {
     }
 
     if ($datos_usuario_logeado->tipo == "admin") {
-        
-        if(isset($_POST["btnSeleccionar"]) || isset($_POST["btnEditar"])){
-           
-            if(isset($_POST["btnSeleccionar"])){
-                $id_profesor_seleccionado=$_POST["profesores"];
-            }else if(isset($_POST["btnEditar"])){
-                $id_profesor_seleccionado=$_POST["btnEditar"];
-            }else{
-                $id_profesor_seleccionado=0;
+
+        if (isset($_POST["btnSeleccionar"]) || isset($_POST["btnEditar"])) {
+
+            if (isset($_POST["btnSeleccionar"])) {
+                $id_profesor_seleccionado = $_POST["profesores"];
+            } else if (isset($_POST["btnEditar"])) {
+                $id_profesor_seleccionado = $_POST["btnEditar"];
+            } else {
+                $id_profesor_seleccionado = 0;
             }
-            
         }
-?>      
+?>
         <!DOCTYPE html>
         <html lang="en">
 
@@ -141,6 +140,7 @@ if (isset($_SESSION["usuario"])) {
                     color: blue;
                     text-decoration: underline;
                 }
+
                 th {
                     background-color: lightgrey;
                 }
@@ -175,37 +175,36 @@ if (isset($_SESSION["usuario"])) {
             <form action="#" method="post">
                 <p>
                     <select name="profesores" id="prof">
-                    <?php
-                    $url=DIR_SERV."/obtenerProfesores/".urlencode($_SESSION["token"]);
-                    $respuesta=consumir_servicios_REST($url,"GET");
-                    $obj=json_decode($respuesta);
+                        <?php
+                        $url = DIR_SERV . "/obtenerProfesores/" . urlencode($_SESSION["token"]);
+                        $respuesta = consumir_servicios_REST($url, "GET");
+                        $obj = json_decode($respuesta);
 
-                    if (!$obj) {
-                        session_destroy();
-                        die(error_page("Error servicio", "<p>Error consumiendo servicios rest" . $url . "</p>"));
-                    }
-                    if (isset($obj->error)) {
-                        session_destroy();
-                        die(error_page("Error servicio", "<p>Error consumiendo servicios rest" . $obj->error . "</p>"));
-                    }
-                    
-                    if (isset($obj->no_auth)) {
-                        session_unset();
-                        $_SESSION["seguridad"] = "Tiempo de sesion de la api ha caducado";
-                        header("Location:#");
-                        exit;
-                    }
-
-                    foreach ($obj->profesores as $profe) {
-
-                        if($id_profesor_seleccionado==$profe->id_usuario){
-                            echo "<option value='".$profe->id_usuario."' selected>".$profe->usuario."</option>";
-                        }else{
-                            echo "<option value='".$profe->id_usuario."'>".$profe->usuario."</option>";
+                        if (!$obj) {
+                            session_destroy();
+                            die(error_page("Error servicio", "<p>Error consumiendo servicios rest" . $url . "</p>"));
                         }
-                        
-                    }
-                    ?>
+                        if (isset($obj->error)) {
+                            session_destroy();
+                            die(error_page("Error servicio", "<p>Error consumiendo servicios rest" . $obj->error . "</p>"));
+                        }
+
+                        if (isset($obj->no_auth)) {
+                            session_unset();
+                            $_SESSION["seguridad"] = "Tiempo de sesion de la api ha caducado";
+                            header("Location:#");
+                            exit;
+                        }
+
+                        foreach ($obj->profesores as $profe) {
+
+                            if ($id_profesor_seleccionado == $profe->id_usuario) {
+                                echo "<option value='" . $profe->id_usuario . "' selected>" . $profe->usuario . "</option>";
+                            } else {
+                                echo "<option value='" . $profe->id_usuario . "'>" . $profe->usuario . "</option>";
+                            }
+                        }
+                        ?>
                     </select>
                     <button type="submit" name="btnSeleccionar">Ver Horario</button>
                 </p>
@@ -213,11 +212,11 @@ if (isset($_SESSION["usuario"])) {
 
 
 
-                <?php
-                if(isset($_POST["btnSeleccionar"]) || isset($_POST["btnEditar"]) ){
-                $url=DIR_SERV."/obtenerProfesor/".$id_profesor_seleccionado."/".$_SESSION["token"];
-                $respuesta=consumir_servicios_REST($url,"GET");
-                $obj=json_decode($respuesta);
+            <?php
+            if (isset($_POST["btnSeleccionar"]) || isset($_POST["btnEditar"])) {
+                $url = DIR_SERV . "/obtenerProfesor/" . $id_profesor_seleccionado . "/" . $_SESSION["token"];
+                $respuesta = consumir_servicios_REST($url, "GET");
+                $obj = json_decode($respuesta);
 
                 if (!$obj) {
                     session_destroy();
@@ -238,7 +237,7 @@ if (isset($_SESSION["usuario"])) {
                     exit;
                 }
 
-                echo "<h2>Horario del profesor: ".$obj->profesor->nombre."</h2>";
+                echo "<h2>Horario del profesor: " . $obj->profesor->nombre . "</h2>";
 
                 echo "<table>";
                 echo "<tr><th></th><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th></tr>";
@@ -249,11 +248,11 @@ if (isset($_SESSION["usuario"])) {
                 $horas[] = "11:45 - 12:45";
                 $horas[] = "12:45 - 13:45";
                 $horas[] = "13:45 - 14:45";
-    
-    
+
+
                 for ($i = 1; $i < 8; $i++) {
                     echo "<tr><th>" . $horas[$i] . "</th>";
-    
+
                     if ($i == 4) {
                         echo "<th colspan='5'>RECREO</th>";
                     } else {
@@ -263,10 +262,10 @@ if (isset($_SESSION["usuario"])) {
                             $datos["dia"] = $j;
                             $datos["hora"] = $i;
                             $datos["token"] = $_SESSION["token"];
-    
+
                             $respuesta = consumir_servicios_REST($url, "POST", $datos);
                             $obj = json_decode($respuesta);
-    
+
                             if (!$obj) {
                                 session_destroy();
                                 die("<h1>Error servicio</h1><p>Error consumiendo servicios" . $url . "</p></body></html>");
@@ -282,12 +281,12 @@ if (isset($_SESSION["usuario"])) {
                                 exit;
                             }
                             if (isset($obj->mensaje)) {
-                                echo "<td><form action='#' method='post'><button class='enlace' name='btnEditar' value='".$id_profesor_seleccionado."'>Editar</button><input type='hidden' name='dia' value='".$j."'/> <input type='hidden' name='hora' value='".$i."'/></form></td>";
+                                echo "<td><form action='#' method='post'><button class='enlace' name='btnEditar' value='" . $id_profesor_seleccionado . "'>Editar</button><input type='hidden' name='dia' value='" . $j . "'/> <input type='hidden' name='hora' value='" . $i . "'/></form></td>";
                             } else {
                                 $url = DIR_SERV . "/obtenerNombreGrupo/" . $obj->grupo->grupo;
                                 $respuesta = consumir_servicios_REST($url, "GET", $datos);
                                 $obj = json_decode($respuesta);
-    
+
                                 if (!$obj) {
                                     session_destroy();
                                     die("<h1>Error servicio</h1><p>Error consumiendo servicios" . $url . "</p></body></html>");
@@ -306,17 +305,17 @@ if (isset($_SESSION["usuario"])) {
                                     session_destroy();
                                     die("<h1>Error servicio</h1><p>Error consumiendo servicios rest " . $obj->mensaje . "</p></body></html>");
                                 }
-    
-                                echo "<td>" . $obj->nombre->nombre . "<br><form action='#' method='post'><button class='enlace' name='btnEditar' value='".$id_profesor_seleccionado."'>Editar</button> <input type='hidden' name='dia' value='".$j."'/> <input type='hidden' name='hora' value='".$i."'/></form></td>";
+
+                                echo "<td>" . $obj->nombre->nombre . "<br><form action='#' method='post'><button class='enlace' name='btnEditar' value='" . $id_profesor_seleccionado . "'>Editar</button> <input type='hidden' name='dia' value='" . $j . "'/> <input type='hidden' name='hora' value='" . $i . "'/></form></td>";
                             }
                         }
                     }
                     echo "</tr>";
                 }
-    
+
                 echo "</table>";
 
-                if(isset($_POST["btnEditar"])){
+                if (isset($_POST["btnEditar"])) {
                     $horas[1] = "8:15 - 9:15";
                     $horas[] = "9:15 - 10:15";
                     $horas[] = "10:15 - 11:15";
@@ -329,13 +328,13 @@ if (isset($_SESSION["usuario"])) {
                     $dias[] = "Miercoles";
                     $dias[] = "Jueves";
                     $dias[] = "Viernes";
-                    
 
-                    $h =$_POST["hora"];
-                    if($h>3){
-                        $h-=1;
+
+                    $h = $_POST["hora"];
+                    if ($h > 3) {
+                        $h -= 1;
                     }
-                    echo "<h1>Editando la ".$h." hora ( ".$horas[$h]." ) del ".$dias[$_POST["dia"]]."</h1>";
+                    echo "<h1>Editando la " . $h . " hora ( " . $horas[$h] . " ) del " . $dias[$_POST["dia"]] . "</h1>";
                     echo "<table>";
                     echo "<tr><th>Grupo</th><th>Acción</th></tr>";
 
@@ -343,7 +342,7 @@ if (isset($_SESSION["usuario"])) {
                     echo "</table>";
                 }
             }
-                ?>    
+            ?>
         </body>
 
         </html>
