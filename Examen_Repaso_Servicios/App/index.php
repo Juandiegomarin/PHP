@@ -335,6 +335,7 @@ if (isset($_SESSION["usuario"])) {
                         $h -= 1;
                     }
                     echo "<h1>Editando la " . $h . " hora ( " . $horas[$h] . " ) del " . $dias[$_POST["dia"]] . "</h1>";
+                    echo "<h2>Has seleccionado el profesor con el nombre".$_POST["btnEditar"]."</h2>";
                     echo "<table>";
                     echo "<tr><th>Grupo</th><th>Acción</th></tr>";
 
