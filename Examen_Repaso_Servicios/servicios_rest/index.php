@@ -95,6 +95,15 @@ $app->get("/obtenerProfesor/{id}/{token}",function($request){
     }
 });
    
+$app->get("/login2",function($request){
+
+    $datos[]=$request->getParam("usuario");
+    $datos[]=$request->getParam("clave");
+
+    echo json_encode(login2($datos));
+
+});
 
 $app->run();
 ?>
+
