@@ -2,6 +2,12 @@
     "folders": [
         {
             "path": "."
+        },
+        {
+            "path": "../../../Users/Juan Diego/OneDrive/Escritorio/Documentos/Diseño"
         }
-    ]
+    ],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "Diseño"
+    }
 }
