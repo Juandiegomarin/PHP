@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+#contenido {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+#respuesta{
+    margin-bottom: 2rem;
+}
+table,
+th,
+td {
+    border-collapse: collapse;
+    border: 1px solid black;
+    text-align: center;
+}
+
+th {
+    background-color: lightgray;
+}
+.enlace{
+    background: none;
+    text-decoration: underline;
+    border: none;
+    color: blue;
+    cursor: pointer;
+}
+#mensaje{
+    color: blue;
+}
+form {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+

@@ -166,7 +166,36 @@ function familias()
 
     return $respuesta;
 }
+function obtener_familia($cod)
+{
+    try
+    {
+        $conexion=new PDO("mysql:host=".SERVIDOR_BD.";dbname=".NOMBRE_BD,USUARIO_BD,CLAVE_BD,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+        try
+        {
+            $consulta="select * from familia where cod=?";
+            $sentencia=$conexion->prepare($consulta);
+            $sentencia->execute([$cod]);
+            $respuesta["familia"]=$sentencia->fetch(PDO::FETCH_ASSOC);
+            
+        }
+        catch(PDOException $e)
+        {
+        
+            $respuesta["mensaje_error"]="Imposible realizar la consulta. Error:".$e->getMessage();
+        }
 
+        $sentencia=null;
+        $conexion=null; 
+    }
+    catch(PDOException $e)
+    {
+        $respuesta["mensaje_error"]="Imposible conectar. Error:".$e->getMessage();
+    }
+
+    
+    return $respuesta;
+}
 function repetido($tabla, $columna, $valor)
 {
 

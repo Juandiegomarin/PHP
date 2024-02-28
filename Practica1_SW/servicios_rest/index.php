@@ -49,6 +49,12 @@ $app->get("/familias", function () {
 
     echo json_encode(familias());
 });
+$app->get('/familia/{cod}',function($request){
+
+   
+    echo json_encode(obtener_familia($request->getAttribute('cod')));
+
+});
 
 $app->get("/repetido/{tabla}/{columna}/{valor}", function ($request) {
 
