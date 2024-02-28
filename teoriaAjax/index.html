@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoria PHP y JavaScript</title>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/index.js"></script>
+    <style>
+        table,tr,td,th{
+            border: 1px solid black;
+        }
+        table{
+            border-collapse: collapse;
+            width: 60%;
+            text-align: center;
+            margin: 0 auto;
+        }
+        th{
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teoria Ajac</h1>
+    <p>
+        <button onclick="llamada_get1()">GET1</button>
+        <button onclick="llamada_get2()">GET2</button>
+        <button onclick="llamada_post()">POST</button>
+        <button onclick="llamada_delete()">DELETE</button>
+        <button onclick="llamada_put()">PUT</button>
+        <button onclick="llamada_productos()">PRODUCTOS</button>
+    </p>
+    <div id="respuesta"></div>
+</body>
+</html>

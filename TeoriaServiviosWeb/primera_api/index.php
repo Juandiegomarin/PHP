@@ -38,7 +38,7 @@ $app->delete("/borrar_saludo/{id}",function($request){
 $app->put("/actualizar_saludo/{id}",function($request){
     $id_recibida=$request->getAttribute("id");
     $nombre_nuevo=$request->getParam("nombre");
-    $respuesta["mensaje"]="Se ha borrado el saludo con id: ".$id_recibida." con nombre".$nombre_nuevo;
+    $respuesta["mensaje"]="Se ha borrado el saludo con id: ".$id_recibida." con nombre ".$nombre_nuevo;
     echo json_encode($respuesta);
 });
 //$app->post();
